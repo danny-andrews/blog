@@ -1,0 +1,19 @@
+base_url = "http://dannyandrews.net/"
+title = "Danny Andrews' Blog"
+description = "A collection of articles related to software development"
+default_language = "en"
+generate_rss = true
+theme = "hyde"
+highlight_code = true
+build_search_index = true
+taxonomies = [
+  {name = "tags", rss = true}
+]
+
+[extra]
+hyde_links = [
+  {url = "https://github.com/danny-andrews/", name = "GitHub"},
+  {url = "https://www.linkedin.com/in/danielandrews91/", name = "LinkedIn"},
+  {url = "https://twitter.com/lunde_andrews/", name = "Twitter"}
+]
+hyde_reverse = true
