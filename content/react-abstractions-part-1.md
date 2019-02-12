@@ -6,14 +6,15 @@ date = 2018-02-02
 tags = ["javascript", "react", "design patterns", "higher-order components"]
 +++
 
-# Render Props, Component Injection, Higher-Order Components, and More!
-This set of articles is an attempt to organize my thoughts on these constructs and hopefully help others along their journey through the wonderful world of React 🐰.
+Render Props, Component Injection, Higher-Order Components, and More!
 
-<img src="/images/Alice.jpeg" />
+This set of articles is an attempt to organize my thoughts on these constructs and hopefully help others along their journey through the wonderful world of React.
 
 Part 1 will be concerned with the "What" and "How" of these abstractions while Part 2 will be concerned with the "When" and "Why."
 
-# Background
+<!-- more -->
+
+## Background
 If you're a part of the web-dev Twittersphere, then you've probably heard of the HoC vs. render prop "drama" (😛) created by [Michael Jackson](https://medium.com/@mjackson)'s tweet:
 
 <blockquote class="twitter-tweet" data-conversation="none" data-lang="en"><p lang="en" dir="ltr">I can do anything you&#39;re doing with your HOC using a regular component with a render prop. Come fight me.</p>&mdash; MICHAEL JACKSON (@mjackson) <a href="https://twitter.com/mjackson/status/885910701520207872?ref_src=twsrc%5Etfw">July 14, 2017</a></blockquote>
@@ -23,7 +24,7 @@ If you're a part of the web-dev Twittersphere, then you've probably heard of the
 
 This tweet sparked a lot of productive debate, but it also added a lot of confusion, as there are a lot of variations of this pattern which are called different things. So, let's start with some terms.
 
-# Definitions (a.k.a. "What")
+## Definitions (a.k.a. "What")
 [Render (prop/callback)](https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce) - A function prop that a component uses to know what to render. Example:
 
 ```js
@@ -91,7 +92,7 @@ Higher-order component (HoC) - Any component which takes a render prop. So in ou
 > Higher order **component** (HoC): A **component** that takes a **component** as an argument (i.e. prop).  
 > Component decorator: A **function** that takes a **component** as an argument and returns a component as a result.  
 
-# Usage (a.k.a. "How")
+## Usage (a.k.a. "How")
 Implementing component decorators has been detailed in depth in other articles, so I won't go through it here. However, there are a few subtleties around how to implement render props from both the HoC's perspective (`LuckyNumber`), and a HoC's consumer (`App`). Let's start with the former.
 
 How should `LuckyNumber` render its render prop? Should it render it via `this.prop.render()` (as in the render prop example) or via `jsx/createElement` (as in the component injection example)? Is there a difference. Turns out there is!
@@ -168,7 +169,7 @@ With this approach, we pass the props we want passed to our render prop through 
 
 From these examples, the inline render prop pattern seems to be the most capable. That being said, React Router does provide a [component injection](https://reacttraining.com/react-router/web/api/Route/component) API, so it may still have its use-cases. Most times, though, you should stick with inline render props.
 
-# Conclusion
+## Conclusion
 I tried to keep it short, but it turns out there's a lot of variations and terms for React abstractions floating around, and I want this article to be comprehensive. Hopefully it has given us the base knowledge from which we can begin to assess these different abstractions and determine when and why we should use them. See you in Part 2 (coming soon) where we'll attempt to answer the following questions:
 
 
@@ -181,7 +182,7 @@ I tried to keep it short, but it turns out there's a lot of variations and terms
 1. Are HoCs easier or more difficult to test than component decorators?
 1. Are there any things component decorators can do that render props can't?
 
-# Further Reading
+## Further Reading
 
 https://reactjs.org/docs/higher-order-components.html
 https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce

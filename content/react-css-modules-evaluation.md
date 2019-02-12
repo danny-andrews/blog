@@ -12,7 +12,9 @@ As with many popular libraries, I'm sure "react-css-modules" had a valid use-cas
 
 **tl;dr: Use "css-loader" over "react-css-modules"/"babel-plugin-react-css-modules" because the latter relies on side-effects, adds cognitive overhead (too much magic), causes React errors in your tests, requires complex webpack config, requires an additional dependency, is slower than css-loader, and doesn't work with webpack/babel `import` aliases.**
 
-## "PROs"[*](https://github.com/gajus/react-css-modules#whats-the-problem)
+<!-- more -->
+
+## "PROs"[\*](https://github.com/gajus/react-css-modules#whats-the-problem)
 **Throws error when trying to use an `undefined` class name.**
 
 Only actual pro IMHO.

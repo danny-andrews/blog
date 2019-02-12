@@ -6,11 +6,11 @@ date = 2018-02-08
 tags = ["design patterns"]
 +++
 
-# OOP Design Patterns without Inheritence
-
 Over the last decade, the software industry has slowly been moving away from classical-inheritance in favor of more compositional patterns (mixins in Ruby, traits in Scala, etc.) and its begs the question: what happens to the OOP design patterns we've all come to know and love (or hate 😬) in a post-inheritance world? Additionally, what happens to these patterns when we have the full power of functional programming (first-class functions, partial application, monads, etc.) at our disposal?
 
 These are the questions this article attempts to answer. So let's take another look at how the classical OOP design patterns patterns manifest themselves (if at all) in a functional programming language with support for objects. Although several superior languages fit this bill (OCaml, Lisp, etc.) my code examples are going to be in JavaScript, because of its approachable syntax and large user-base.
+
+<!-- more -->
 
 > In my examples, I'll be using the object creation technique simliar to the one outlined [here](https://medium.com/javascript-scene/javascript-factory-functions-with-es6-4d224591a8b1). Reason: no need for `new` or `this` and no confusing `prototype` behavior. Just functions which return objects.
 >
@@ -1041,12 +1041,12 @@ So, anytime you hear people saying functional programming eliminates the GoF des
 * Even patterns which **are** [missing language features](http://wiki.c2.com/?AreDesignPatternsMissingLanguageFeatures) (Command, Strategy, Visitor, Iterator) are valuable from a nomenclature standpoint.
 
 ## References
-* https://github.com/kamranahmedse/design-patterns-for-humans  
-* http://www.jot.fm/issues/issue_2008_09/article2.pdf  
-* https://www.youtube.com/watch?v=ZlPfH6wNDpo  
-* http://www.grahamlea.com/2014/07/lambda-design-patterns-java-8/  
-* http://www.norvig.com/design-patterns/design-patterns.pdf  
-* https://medium.com/javascript-scene/the-open-minded-explorer-s-guide-to-object-composition-88fe68961bed
-* http://blog.ezyang.com/2010/05/design-patterns-in-haskel/
-* http://www.cs.ox.ac.uk/jeremy.gibbons/publications/hodgp.pdf
-* https://www.voxxed.com/2016/05/gang-four-patterns-functional-light-part-1/
+* <https://github.com/kamranahmedse/design-patterns-for-humans>
+* <http://www.jot.fm/issues/issue_2008_09/article2.pdf>
+* <https://www.youtube.com/watch?v=ZlPfH6wNDpo>
+* <http://www.grahamlea.com/2014/07/lambda-design-patterns-java-8>
+* <http://www.norvig.com/design-patterns/design-patterns.pdf>
+* <https://medium.com/javascript-scene/the-open-minded-explorer-s-guide-to-object-composition-88fe68961bed>
+* <http://blog.ezyang.com/2010/05/design-patterns-in-haskel>
+* <http://www.cs.ox.ac.uk/jeremy.gibbons/publications/hodgp.pdf>
+* <https://www.voxxed.com/2016/05/gang-four-patterns-functional-light-part-1>

@@ -9,6 +9,8 @@ tags = ["back to basics", "testing"]
 
 What follows are a list of language-agnostic principles and best practices I have found to be quite helpful when writing unit tests. Let me know what I missed in the comments!
 
+<!-- more -->
+
 > This article was inspired by the [knowledge-base](https://github.com/danny-andrews/knowledge-base/blob/master/GENERAL.md) I've been developing lately. It's sort of a living career cheat-sheet. I highly recommend any developer to do the same. I can't count the number of times I've forgotten a cool trick or principle I've learned. No longer!
 
 ## Terms

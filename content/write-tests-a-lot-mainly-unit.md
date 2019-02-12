@@ -9,6 +9,8 @@ tags = ["testing", "rebuttal"]
 
 A few months ago, Kent Dodd wrote an article highlighting a maxim about testing philosophy which is totally backwards. It goes: "Write tests. Not too many. Mostly integration." On the first point, I agree. You should be writing tests for most all the code you write. It not only helps you for regression testing, but also as a tool for iterating on the design of your code. The second point ("Not too many") is where I start to scratch my head. I have yet to work at a place where too **many** tests are the problem. TDD is a discipline, and like all disciplines, it more tempting to neglect it than to overindulge. So recommending you "not write too many tests" is pointless and harmful advice.
 
+<!-- more -->
+
 As far as the "mostly integration" part goes, it just completely neglects the benefits TDD brings. Even worse, it misses an essential aspect of writing tests: helping you identify tight coupling. All of his arguments to write more integration tests assume that the only value tests have are in telling you when something is wrong with your code's *behavior*, but nothing of its *design*. Unit tests force you decouple your code, and encourage you to [isolate side-effects from the rest of your program logic](https://medium.com/javascript-scene/mocking-is-a-code-smell-944a70c90a6a#7529).
 
 But, for the purpose of argument, let's just say that testing is only useful for preventing bugs and regressions. It would **still** be better to write more unit tests than integration tests. I'll demonstrate with a contrived example.
@@ -250,7 +252,7 @@ Notice how despite the unit-test method requiring more tests to achieve the same
 
 > Sidenote: I realize the examples given are ultra simplistic and that extracting easily-testable units for real business needs is hardly so trivial, but the principle remains. And to those who want to bring up "Test-induced design damage," you are missing the point. TDD only provides the diagnosis (tight coupoling), you still have to come up with a proper treatment plan (DI, pub/sub, monadic I/O, more pure functions, etc.). TDD isn't to blame for horrendously over-abstracted messes. It's just the messanger. :)
 
-### Conclusion
+## Conclusion
 Any given integration test *does* provide you with more confidence than a given unit test. But only confidence in the single code path it takes. Unit tests are what give you confidence that your logic is *correct*.
 
 So, no. Don't write fewer tests. Don't write more integration tests than unit tests. Don't throw decades of industry experience and research out the window because of a tweet and Medium article.
