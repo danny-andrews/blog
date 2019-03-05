@@ -9,6 +9,7 @@ build_search_index = true
 taxonomies = [
   {name = "tags", rss = true}
 ]
+compile_sass = true
 
 [extra]
 even_menu = [

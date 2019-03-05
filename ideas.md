@@ -11,3 +11,5 @@
 * Pattern for dealing with effects (layers of dependencies) (testing, dependency injection with the Reader type)
 * Separating effects from logic (make into a talk) (https://medium.com/javascript-scene/mocking-is-a-code-smell-944a70c90a6a#7529)
 * Common patterns and their solutions in CSS (headings, responsive typography, etc.)
+* Where redux went wrong (redux-thunk).
+* Concise redux.
