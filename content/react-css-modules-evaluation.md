@@ -3,7 +3,7 @@ title = "React CSS Modules Evaluation"
 date = 2018-01-31
 
 [taxonomies]
-tags = ["javascript", "react", "tech assessment"]
+tags = ["javascript", "react", "tech-assessment"]
 +++
 
 > Disclaimer: This article is in no way meant to belittle the react-css-modules project, or its author. Gajus is a smart dude and does a lot of great work for free for the JavaScript community to enjoy! ❤️ This is merely an evaluation of this particular library.

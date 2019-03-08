@@ -3,7 +3,7 @@ title = "React Abstractions: Part 1"
 date = 2018-02-02
 
 [taxonomies]
-tags = ["javascript", "react", "design patterns", "higher-order components"]
+tags = ["javascript", "react", "design-patterns", "higher-order-components"]
 +++
 
 Render Props, Component Injection, Higher-Order Components, and More!

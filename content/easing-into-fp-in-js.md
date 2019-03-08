@@ -3,7 +3,7 @@ title = "Easing into Functional Programming in JavaScript"
 date = 2018-02-13
 
 [taxonomies]
-tags = ["functional programming", "programming language theory"]
+tags = ["functional-programming", "programming-language-theory"]
 +++
 
 This article is intended to help you methodically incorporate rad Functional Programming (FP) techniques into your everyday work.

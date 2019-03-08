@@ -4,7 +4,7 @@ description = "🧐🧐🧐"
 date = 2018-02-13
 
 [taxonomies]
-tags = ["back to basics", "testing"]
+tags = ["back-to-basics", "testing"]
 +++
 
 What follows are a list of language-agnostic principles and best practices I have found to be quite helpful when writing unit tests. Let me know what I missed in the comments!

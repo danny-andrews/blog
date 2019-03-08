@@ -3,7 +3,7 @@ title = "React Abstractions: Part 2"
 date = 2018-02-13
 
 [taxonomies]
-tags = ["javascript", "react", "design patterns", "higher-order components"]
+tags = ["javascript", "react", "design-patterns", "higher-order-components"]
 +++
 
 TODO:
