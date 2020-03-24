@@ -46,10 +46,4 @@ Use `Promise`s instead (or [better yet](https://github.com/fluture-js/Fluture/wi
 
 Use the [`IO`](https://monet.github.io/monet.js/#io) Monad.
 
-> It should be noted that FP isn't about merely eliminating things. It's about making your code more reasonable and composable. This is just a convenient way to introduce these FP constructs. :D
-
-## Result
-<img src="/images/expanding-brain-fp-meme.png" />
-
-## Acknowledgements
-Thanks to Mateusz Chrzonstowski https://mat3e.github.io/brains/ for the dankery.
+> It should be noted that FP isn't about merely eliminating things. It's about making your code more reasonable and composable. When you are given more powerful abstractions, you need fewer of them.
