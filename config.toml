@@ -14,7 +14,6 @@ compile_sass = true
 [extra]
 even_menu = [
   {url = "https://github.com/danny-andrews/", name = "GitHub"},
-  {url = "https://www.linkedin.com/in/danielandrews91/", name = "LinkedIn"},
-  {url = "https://twitter.com/lunde_andrews/", name = "Twitter"}
+  {url = "https://www.linkedin.com/in/danielandrews91/", name = "LinkedIn"}
 ]
 even_title = "Danny Andrews' Blog"
