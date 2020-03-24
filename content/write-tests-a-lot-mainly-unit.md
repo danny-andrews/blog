@@ -7,7 +7,7 @@ date = 2018-08-02
 tags = ["testing", "rebuttal"]
 +++
 
-A few months ago, Kent Dodd wrote an article highlighting a maxim about testing philosophy which is totally backwards. It goes: "Write tests. Not too many. Mostly integration." On the first point, I agree. You should be writing tests for most all the code you write. It not only helps you for regression testing, but also as a tool for iterating on the design of your code. The second point ("Not too many") is where I start to scratch my head. I have yet to work at a place where too **many** tests are the problem. TDD is a discipline, and like all disciplines, it more tempting to neglect it than to overindulge. So recommending you "not write too many tests" is pointless and harmful advice.
+A few months ago, Kent Dodd wrote an article highlighting a maxim about testing philosophy which is I believe is unhelpful. It goes: "Write tests. Not too many. Mostly integration." On the first point, I agree. You should be writing tests for most all the code you write. It not only helps you for regression testing, but also as a tool for iterating on the design of your code. The second point ("Not too many") is where I start to scratch my head. I have yet to work at a place where too **many** tests are the problem. TDD is a discipline, and like all disciplines, it more tempting to neglect it than to overindulge. So recommending you "not write too many tests" seems like harmful advice.
 
 <!-- more -->
 
@@ -255,8 +255,4 @@ Notice how despite the unit-test method requiring more tests to achieve the same
 ## Conclusion
 Any given integration test *does* provide you with more confidence than a given unit test. But only confidence in the single code path it takes. Unit tests are what give you confidence that your logic is *correct*.
 
-So, no. Don't write fewer tests. Don't write more integration tests than unit tests. Don't throw decades of industry experience and research out the window because of a tweet and Medium article.
-
-The worst part of Kent's article is, I think I agree with him. 😬 In React-land, unit and integration tests mean very different things.
-
-All of this contention could have been solved if he had given just one example of what he meant by "unit" and "integration" in the context of React. Talking about testing philosophy in abstract terms is a waste of time.
+So, no. Don't write fewer tests. Don't write more integration tests than unit tests. Don't throw decades of industry experience and research out the window because of a tweet and Medium article. 😉
