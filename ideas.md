@@ -13,3 +13,4 @@
 * Common patterns and their solutions in CSS (headings, responsive typography, etc.)
 * Where redux went wrong (redux-thunk).
 * Concise redux.
+* Create a post “‘How do I’s?’ in FP”
