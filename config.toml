@@ -1,4 +1,4 @@
-base_url = "http://dannyandrews.net/"
+base_url = "https://dannyandrews.net/"
 title = "Danny Andrews' Blog"
 description = "A collection of articles related to software development"
 default_language = "en"

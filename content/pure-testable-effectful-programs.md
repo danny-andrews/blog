@@ -4,15 +4,22 @@ date = 2020-04-29
 draft = true
 
 [taxonomies]
-tags = ["functional-programming", "javascript"]
+tags = ["functional-programming", "purescript"]
 +++
 
-## Prerequisites
-This post assumes basic knowledge of monads. How they are defined, how they are used, etc.
+Note: This post assumes basic knowledge of monadic effects. How they are defined, how they are used, etc.
 
-In this post, I'll try to walk you through my journey in writing a testable, pure, effectful program in JavaScript. Hopefully it will be useful in illustrating the types of problems more advanced techniques like monad transformers, free monads, and bifunctor IO try to solve. Here goes:
+In this post, I'll try to walk you through my journey in writing a testable, pure, effectful program in PureScript. Hopefully it will be useful in illustrating the types of problems more advanced techniques like monad transformers, free monads, and bifunctor IO try to solve. Here goes:
 
-Let's say we need to write a program which reads a string from a file ("message.txt") appends a signature and writes the resulting string out to the console. Here's an example of how that might look in purescript:
+Let's say we need to write a program with the following requirements:
+1. Read a string from a file ("message.txt")
+1. Append a signature to the message string read from file (" - Danny Andrews")
+1. Write the message + signature out to the console
+1. If file read fails, writes a custom error message telling you what happened
+
+Seems simple enough, right? Well, buckle up.
+
+Here's my first pass:
 
 ```purescript
 module Main where
@@ -35,7 +42,7 @@ main = do
    log result
 ```
 
-This gets us through the happy case, but if the file "message.txt" doesn't exist, our program crashes. Fortunately, PureScript provides a method for converting a function which returns an `Effect a` to one which returns an `Effect (Either Error a)` called `try` defined in [Effect.Exception](https://pursuit.purescript.org/packages/purescript-exceptions/4.0.0/docs/Effect.Exception#v:try). So let's use that.
+This gets us through the happy case, but it doesn't satisfy requirement #4. If the file "message.txt" doesn't exist, our program crashes with a generic file read error. Fortunately, PureScript provides a method for converting a function which returns an `Effect a` to one which returns an `Effect (Either Error a)` called `try` defined in [Effect.Exception](https://pursuit.purescript.org/packages/purescript-exceptions/4.0.0/docs/Effect.Exception#v:try). So let's use that.
 
 ```purescript
 module Main2 where
@@ -46,12 +53,23 @@ import Effect (Effect)
 import Effect.Console (log)
 import Node.FS.Sync as FS
 import Node.Encoding (Encoding(..))
-import Effect.Exception (try, Error)
+import Effect.Exception (try)
 import Data.Either (Either(..))
+import Data.Bifunctor (lmap)
 
-getSignedMessage :: String -> Effect (Either Error String)
+data MessageFileReadError = MessageFileReadError
+
+instance showMessageFileReadError :: Show MessageFileReadError where
+  show s = "Could not read message file 'message.txt.' Does it exist?"
+
+readMessageFile :: Effect (Either MessageFileReadError String)
+readMessageFile = do
+  result <- try $ FS.readTextFile UTF8 "message.txt"
+  pure $ lmap (const MessageFileReadError) result
+
+getSignedMessage :: String -> Effect (Either MessageFileReadError String)
 getSignedMessage signature = do
-  result <- try $ FS.readTextFile UTF8 "message.txt" 
+  result <- readMessageFile
   pure $ map (_ <> signature) result
 
 main :: Effect Unit
@@ -59,16 +77,48 @@ main = do
    result <- getSignedMessage " - Danny Andrews"
    case result of
     Right a -> log a
-    Left err -> log "Uh oh"
+    Left err -> log $ show err
 ```
 
-This program runs just fine, but there are two problems with it.
+This code runs great, but it's annoying that we have to do an extra `map` operation to append the signature (`pure $ map (_ <> signature) result`). As it turns out, working with nested monads is a common occurance, and the canonical solution to this problem in the haskell and scala community is to use monad transformers. I won't explain monad transformers in detail here, but I'll show you how to use `ExceptT` which is *sort of* analogous to `EitherT` or `OptionT` if you're familiar with those.
 
-1. It's untestable. The output type of our `getSignedMessage` function is `Effect (Either Error String)` and as you may or may not know, `Effect` types are not comparable. (This follows from the fact that functions are not comparable.) I'll present a solution to this later on.
-2. In order to append the signature, value, we have to do a `map` since we have a structure which is two-monads deep (`Effect -> Either`). This isn't *too* bad, especially when you use `do`-notation, but it's still annoying, and gets even worse when you have monads nested more than two levels deep.
+Here's our example one more time:
 
-As it turns out, this scenerio is so common when working with monads, that there's a canonical solution for it in the haskell community called a "monad transformer."
+```purescript
+module Main3 where
 
-The canonical solution to this problem in the haskell community is monad transformers. I won't go into detail on them here, but they do exactly what they say they do. They sort of allow you to combine the functionality of two monads together and they remove the nested `map`s.
+import Prelude
 
-The problem with this solution is that monad transformers require a lot of wrapping and unwrapping of values, which in a language like haskell which is optimized for running and composing functions very quickly, this isn't a problem. But in a language like JavaScript and Scala, it is. This demonstrates the fundamental problem with bringing monadic IO to languages outside of haskell. A possible solution is simply to create a more powerful IO monad which has error-handling baked-in. To make IO bifunctor. Let's try this out.
+import Effect (Effect)
+import Effect.Console (log)
+import Node.FS.Sync as FS
+import Node.Encoding (Encoding(..))
+import Effect.Exception (try, Error)
+import Data.Either (Either(..))
+import Control.Monad.Except.Trans (ExceptT(..), runExceptT)
+
+readTextFile :: Encoding -> String -> ExceptT Error Effect String
+readTextFile encoding path = ExceptT $ try $ FS.readTextFile encoding path
+
+getSignedMessage :: String -> ExceptT Error Effect String
+getSignedMessage signature = do
+  result <- readTextFile UTF8 "message.txt"
+  pure $ result <> signature
+
+main :: Effect Unit
+main = do
+  result <- runExceptT $ getSignedMessage " - Danny Andrews"
+  case result of
+    Left err -> log "oh no"
+    Right message -> log message
+```
+
+What we've done here is changed our functions to return `ExceptT`, parameterized with the types we're interested in, which allows us to call `map` and `bind` once, and transform the underlying value. Awesome!
+
+This code meets all of our requirements, and provides useful error messages in case things go wrong. However, there is still one issue:
+
+It's completely untestable. The output type of our `getSignedMessage` function is `Effect (Either Error String)` and as you may or may not know, `Effect` types are not comparable. (This follows from the fact that functions are not comparable.) So there's no way for us to make assertions about it. The solution to this problem is where things get pretty wild.
+
+When looking for a solution, you will hear people throwing around terms like "mtl," "extensible effects," "finally-tagless," "free monad," "free(er) monad," and the like. It's all pretty overwhelming.<sup>[1](#user-content-1)</sup>
+
+<span id="1">1</span> It blows me away that trying to write a testable program in a pure functional language is so complex. I'm not claiming it's a trivial problem, but it seems like there's so many vastly different ways to accomplish this, many of them requiring you to structure your application in a very specific way, and it is very overwhelming for a beginner. But, I guess no one ever said pure functional programming was easy.

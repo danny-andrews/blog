@@ -48,33 +48,6 @@ Too many operators. I hate aliases, and custom operators are in effect aliases. 
 
 These things are somewhat minor as you can create linter rules to whitelist operators, but it doesn't shield you from learning all the operators when you are reading open source code.
 
-Compiler messages are just brutal.
-
-```
-Could not match type
-
-    e2
-
-  with type
-
-    a0
-
-
-while checking that type t1
-  is at least as general as type a0
-while checking that expression y
-  has type a0
-in value declaration bindEitherT
-
-where e2 is a rigid type variable
-        bound at (line 0, column 0 - line 0, column 0)
-      a0 is a rigid type variable
-        bound at (line 0, column 0 - line 0, column 0)
-      t1 is an unknown type
-```
-
-I wasn't doing anything too out of the ordinary when I received this error. Why can't the compiler tell me any information about `e2` and `a0`. Like what constraints they might have. They clearly have some or they could be unified. Also, why are the "bound at" locations *always* `line 0, column 0`?
-
 ## Library Support (3/5)
 When you consider how easy it is to use an existing node module via PureScript's FFI, the library support is enormous (too big, in fact, the JS ecosystem is a hot mess)! However, an FFI'd-in shoddy JavaScript package is far less valuable than a package written in PureScript. And it's these types of packages which are lacking--primarily as a product of its smaller userbase. In fact, it has suprising good library support given it's smaller userbase. Still, gotta take two lashes.
 
