@@ -14,3 +14,12 @@ If you're reading this, congrats, you are probably Danny Andrews! It also probab
 - Deploy code with `./deploy.sh`
 
 Check out the [Zola](https://www.getzola.org/documentation/getting-started/cli-usage/) docs or just run `zola help`.
+
+## Deploying task time
+$ `rm -r static/task-time`
+$ `rm -r static/static`
+$ `cp -r ../task-time/build static`
+$ `mv static/build/static static`
+$ `mkdir static/task-time`
+$ `mv static/build/* static/task-time`
+$ `rm -r static/build`
