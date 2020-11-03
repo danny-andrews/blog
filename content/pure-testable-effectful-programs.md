@@ -124,4 +124,6 @@ When looking for a solution, you will hear people throwing around terms like "mt
 
 This is where I'll leave this post. Hopefully someone more experienced with functional programming can clue me in on how to do this, or convince me that I shouldn't worry so much about integration testing in a pure, strongly-typed functional language. I'd love to hear people's opinions on the matter.
 
-<span id="1">1</span> It blows me away that trying to write a testable program in a pure functional language is so complex. I'm not claiming it's a trivial problem, but it seems like there's so many vastly different ways to accomplish this, many of them requiring you to structure your application in a very specific way, and it is very overwhelming for a beginner. But, I guess no one ever said pure functional programming was easy.
+---
+
+<span id="user-content-1">1</span> It blows me away that trying to write a testable program in a pure functional language is so complex. I'm not claiming it's a trivial problem, but it seems like there's so many vastly different ways to accomplish this, many of them requiring you to structure your application in a very specific way, and it is very overwhelming for a beginner. But, I guess no one ever said pure functional programming was easy.
