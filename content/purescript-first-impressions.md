@@ -1,7 +1,6 @@
 +++
 title = "PureScript First Impressions"
-date = 2020-04-22
-draft = true
+date = 2020-11-02
 
 [taxonomies]
 tags = ["functional-programming", "first-impressions"]
