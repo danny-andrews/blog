@@ -26,9 +26,9 @@ Having lots of operators is problematic for many reasons.
 
 1. Operators add more cognative load than regular functions. Because to use them confidently you not only need to learn what they do, but what their associativity and presendence is. For this reason, operators carry at least three times the cognative load that regular functions do.
 2. Operators are essentially aliases -- for every operator, there is a corresponding function which does the same thing.
-3. Operators are difficult to search for. Although package documentation website, Pursuit, supports searching with sepcial characters (ex: https://pursuit.purescript.org/search?q=%3E%3E), you still can't search Google for them.
+3. Operators are difficult to search for. Although package documentation website, Pursuit, supports searching with sepcial characters (ex: <https://pursuit.purescript.org/search?q=%3E%3E>), you still can't search Google for them.
 
-I do think operators have utility, but they should only be used for fundamental operations (e.g. `>>>` for funnction piping). Beyond that, I feel the cost of them outweights the benefit, especially for beginners. Especially when considering that we already have a way to convert binary functions into infix operators. Why not leverage that rather than introducing a bunch of new notation for programmers to figure out? With basic knowledge of monads, I can read `` monad1 `map` monad2 `` and immediately understand what is going on. I can't say the same for `monad1 <$> monad2`.
+I do think operators have utility, but they should only be used for fundamental operations (e.g. `>>>` for funnction piping). Beyond that, I feel the cost of them outweights the benefit, especially for beginners, and especially when considering that we already have a way to convert binary functions into infix operators. Why not leverage that rather than introducing a bunch of new notation for programmers to figure out? With basic knowledge of monads, I can read `` monad1 `map` monad2 `` and immediately understand what is going on. I can't say the same for `monad1 <$> monad2`.
 
 ### Redundant Constructs
 
