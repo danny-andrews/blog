@@ -4,3 +4,7 @@
 
 [build.environment]
     ZOLA_VERSION = "0.11.0"
+
+[[redirects]]
+  from = "/task-time"
+  to = "https://task-time.netlify.app/"
