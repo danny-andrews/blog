@@ -13,19 +13,22 @@ Virtually every program you write will have to deal with errors somehow. And doi
 > The code examples in this article are written in JavaScript because that's what I'm most familiar with, but the principle applies to any language.
 
 handle-user-input.js:
+
 ```js
-const handleUserInput = input => {
+const handleUserInput = (input) => {
   const num = Number(input);
-  if(isNaN(num)) {
-    throw new Error(`I expected a number, but you gave me: "${input}." ` 
-      + 'Please try again.');
+  if (isNaN(num)) {
+    throw new Error(
+      `I expected a number, but you gave me: "${input}." ` + "Please try again."
+    );
   }
 
   return num * 10;
-}
+};
 ```
 
 However, there are a few issues with this code:
+
 1. Error messages can't be easily changed. If the error is displayed to the user, then a designer may want to change the error copy. Doing so requires scouring the code to find where that error was thrown.
 2. If the same error case is encountered in another part of your code, the message string will have to by copy and pasted.
 3. Error messages can't be internationalized.
@@ -40,10 +43,12 @@ The answer is simple: `printf`. `printf` strings are like dynamic template strin
 errors.js:
 
 ```js
-const makeError = format => (...args) => new Error(sprintf(format, ...args));
+const makeError = (format) => (...args) => new Error(sprintf(format, ...args));
 
 /* eslint-disable max-len */
-export const UserInputNotNumericError = makeError('I expected a number, but you gave me: "%s." Please try again.');
+export const UserInputNotNumericError = makeError(
+  'I expected a number, but you gave me: "%s." Please try again.'
+);
 ```
 
 handle-user-input.js:
@@ -63,6 +68,7 @@ const handleUserInput = input => {
 ```
 
 With this change:
+
 1. Error messages can be easily changed.
 2. If the same error case is encountered in another part of your code, just import the same error message.
 3. Error messages can be internationalized.

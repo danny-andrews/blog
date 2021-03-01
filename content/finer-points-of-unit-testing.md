@@ -29,15 +29,15 @@ What follows are a list of language-agnostic principles and best practices I hav
 
 **Test Double**[\*](http://xunitpatterns.com/Test%20Double.html) — A generic term for any kind of pretend object used in place of a real object for testing purposes. Specific examples given below:
 
-* **Fake** — A test double that actually has a working implementation, but usually takes some shortcut which makes it not suitable for production (an [in-memory database](https://martinfowler.com/bliki/InMemoryTestDatabase.html) is a good example, as is [redux-mock-store](https://github.com/arnaudbenard/redux-mock-store)).
+- **Fake** — A test double that actually has a working implementation, but usually takes some shortcut which makes it not suitable for production (an [in-memory database](https://martinfowler.com/bliki/InMemoryTestDatabase.html) is a good example, as is [redux-mock-store](https://github.com/arnaudbenard/redux-mock-store)).
 
-* **Dummy** — A test double passed around but never actually used in the code path the test is exercising. Usually they are just used to fill parameter lists.
+- **Dummy** — A test double passed around but never actually used in the code path the test is exercising. Usually they are just used to fill parameter lists.
 
-* **Stub** — A test double which provides canned answers to calls made during the test.
+- **Stub** — A test double which provides canned answers to calls made during the test.
 
-* **Spy** — A Stub that also records some information based on how it was called (how many times and with what parameters).
+- **Spy** — A Stub that also records some information based on how it was called (how many times and with what parameters).
 
-* **Mock**[\*](https://martinfowler.com/articles/mocksArentStubs.html) — A spy with pre-programmed expectations.
+- **Mock**[\*](https://martinfowler.com/articles/mocksArentStubs.html) — A spy with pre-programmed expectations.
 
 ## Best-Practices
 
@@ -45,13 +45,13 @@ What follows are a list of language-agnostic principles and best practices I hav
 
 Use factories to make SUT construction easy.
 
-**Benefits**
+#### Benefits
 
 1. No copy-and-paste.
 1. Tests which are easier to read.
 1. Easy to fix entire suite when the SUT's signature changes.
 
-**Bad**
+#### Bad
 
 ```js
 import subject from '../get-pr-status-payload';
@@ -84,17 +84,17 @@ it('sets context to label', () => {
 });
 ```
 
-**Good**
+#### Good
 
 ```js
-import getPrStatusPayload from '../get-pr-status-payload';
+import getPrStatusPayload from "../get-pr-status-payload";
 
 const optsFac = (opts = {}) => ({
   thresholdFailures: [],
-  label: '',
+  label: "",
   // If the SUT adds any required options (e.g. delay) we can add it
   //   here, and fix all our tests!
-  ...opts
+  ...opts,
 });
 
 const subject = R.pipe(optsFac, getPrStatusPayload);
@@ -102,21 +102,21 @@ const subject = R.pipe(optsFac, getPrStatusPayload);
 it("sets state to 'success' when no failures", () => {
   const { state: actual } = subject({ thresholdFailures: [] });
 
-  expect(actual).toEqual('success');
+  expect(actual).toEqual("success");
 });
 
 it("sets state to 'failure' when there are failures", () => {
   const { state: actual } = subject({
-    thresholdFailures: [{ message: 'file3 is too big' }]
+    thresholdFailures: [{ message: "file3 is too big" }],
   });
 
-  expect(actual).toEqual('failure');
+  expect(actual).toEqual("failure");
 });
 
-it('sets context to label', () => {
-  const { context: actual } = subject({ label: 'bundle sizes' });
+it("sets context to label", () => {
+  const { context: actual } = subject({ label: "bundle sizes" });
 
-  expect(actual).toEqual('bundle sizes');
+  expect(actual).toEqual("bundle sizes");
 });
 ```
 
@@ -124,23 +124,23 @@ it('sets context to label', () => {
 
 Factories should only provide minimal amount of data required to statisfy the SUT's interface.
 
-**Benefits**
+#### Benefits
 
 1. No confusing test results caused by optional data added by factory.
 1. No unnecessary work performed by factory.
 
-**Bad**
+#### Bad
 
 ```js
-import Person from '../Person';
+import Person from "../Person";
 
 const subject = (opts = {}) => ({
-  name: 'Bob',
+  name: "Bob",
   favoriteNumbers: [2, 4, 7], // Optional!
-  ...opts
+  ...opts,
 });
 
-it('defaults favoriteNumbers to empty list', () => {
+it("defaults favoriteNumbers to empty list", () => {
   const person = subject();
 
   // Fails! Length is 3!
@@ -148,17 +148,17 @@ it('defaults favoriteNumbers to empty list', () => {
 });
 ```
 
-**Good**
+#### Good
 
 ```js
-import Person from '../Person';
+import Person from "../Person";
 
 const subject = (opts = {}) => ({
-  name: 'Bob',
-  ...opts
+  name: "Bob",
+  ...opts,
 });
 
-it('defaults favoriteNumbers to empty list', () => {
+it("defaults favoriteNumbers to empty list", () => {
   const person = subject();
 
   // Fails! Length is 3!
@@ -174,30 +174,30 @@ Test external-facing behavior, not implementation. Don't test private APIs.
 
 > From “[The Magic Tricks of Testing](https://youtu.be/URSWYvyc42M?t=27m52s)” by Sandi Metz
 
-**Benefits**
+#### Benefits
 
 1. Allows you to refactor SUT internals without breaking tests.
 1. Tests what's really important (user-facing behavior). Tests SUT internals as a side-effect.
 
-**Bad**
+#### Bad
 
 ```js
-test('tick increases count to 1 after calling tick', function() {
+test("tick increases count to 1 after calling tick", function () {
   const subject = Counter();
-  
+
   subject.tick();
 
-  // Tests two things! That count is incremented when tick is 
-  //   called, and that count is defaulted to 0. In the context of 
+  // Tests two things! That count is incremented when tick is
+  //   called, and that count is defaulted to 0. In the context of
   //   this test, the latter is an implementation detail.
   assert.equal(subject.count, 1);
 });
 ```
 
-**Good**
+#### Good
 
 ```js
-it('increases count by 1 after calling tick', function() {
+it("increases count by 1 after calling tick", function () {
   const subject = Counter();
   const originalCount = subject.count;
 
@@ -212,15 +212,15 @@ it('increases count by 1 after calling tick', function() {
 
 Verifying one behavior != making one assertion, although this is usually the case.
 
-**Benefits**
+#### Benefits
 
 1. Eliminates test redundancy.
 1. Makes it easier to remove/modify a behavior from the SUT, as it should require deleting/modifying one corresponding test.
 
-**Bad**
+#### Bad
 
 ```js
-test('tick increases count to 1 after calling tick', function() {
+test("tick increases count to 1 after calling tick", function () {
   const subject = Counter();
 
   subject.tick();
@@ -231,10 +231,10 @@ test('tick increases count to 1 after calling tick', function() {
 });
 ```
 
-**Good**
+#### Good
 
 ```js
-it('defaults count to 0', function() {
+it("defaults count to 0", function () {
   const subject = Counter();
 
   subject.tick();
@@ -242,7 +242,7 @@ it('defaults count to 0', function() {
   assert.equal(subject.count, 0);
 });
 
-it('increases count by 1 after calling tick', function() {
+it("increases count by 1 after calling tick", function () {
   const subject = Counter();
   const originalCount = counter.count;
 
@@ -260,19 +260,19 @@ Fixtures are inflexible and necessitate a lot of redundancy. If the shape of you
 
 Many [testing frameworks](https://mochajs.org/#interfaces) offer an xUnit-style syntax (`suite`/`test`) and a BDD-style syntax (`describe`/`it`). The latter helps to nudge the developer in the direction of testing in terms of specifications and external behaviors rather than implementation details and read a little more naturally.
 
-**Good**
+#### Good
 
 ```js
-describe('thing', () => {
-  it('does the thing');
+describe("thing", () => {
+  it("does the thing");
 });
 ```
 
-**Less Good**
+#### Less Good
 
 ```js
-suite('thing', () => {
-  test('does the thing');
+suite("thing", () => {
+  test("does the thing");
 });
 ```
 
@@ -282,44 +282,44 @@ suite('thing', () => {
 1. Keep nesting to two levels deep.
 1. Don't add top-level describe block. It adds unnecessary nesting. It should be clear what you are testing by the test file name.
 
-**Benefits**
+#### Benefits
 
 1. Easier to read test cases as all conditions are listed in the description.
 1. Discourages nested `beforeEach` logic which makes test cases exponentially more difficult to reason about.
 1. Reduces indentation.
 
-**Costs**
+#### Costs
 
 1. Test descriptions are longer. (Big deal.)
 1. More duplication in a test case since you can't do setup in a `beforeEach`. (Some duplication in tests is fine and ancillary boilerplate can be extracted into a helper method/factory.)
 
-**Bad**
+#### Bad
 
 ```js
-describe('requestMaker', () => {
-  describe('valid token given', () => {
-    it('uses auth header along with passed headers', () => {
+describe("requestMaker", () => {
+  describe("valid token given", () => {
+    it("uses auth header along with passed headers", () => {
       // ...
     });
   });
 
-describe('expired token given', () => {
-    it('generates a new token', () => {
+  describe("expired token given", () => {
+    it("generates a new token", () => {
       // ...
     });
   });
 });
 ```
 
-**Good**
+#### Good
 
 ```js
 // request-maker-test.js
-it('uses auth header along with passed headers when valid token given', () => {
+it("uses auth header along with passed headers when valid token given", () => {
   // ...
 });
 
-it('generates a new token when expired token given', () => {
+it("generates a new token when expired token given", () => {
   // ...
 });
 ```
@@ -328,7 +328,7 @@ it('generates a new token when expired token given', () => {
 
 You will find yourself setting many variables which do the same thing in tests. Why try to come up with creative names for them, when you can just use one from a pre-defined set? Examples: `subject`, `expected`, `result`, `actual`, etc.
 
-**Benefits**
+#### Benefits
 
 1. Reduces cognitive load because naming things is hard.
 1. Allows you to rename your subject without changing a bunch of variable names (or, even worse, forgetting to change them, leaving them around to confuse future readers).
@@ -337,18 +337,18 @@ You will find yourself setting many variables which do the same thing in tests. 
 
 These are implied, and removing them keeps descriptions short.
 
-**Bad**
+#### Bad
 
 ```js
-it('should call handler with event object', () => {
+it("should call handler with event object", () => {
   // ...
 });
 ```
 
-**Good**
+#### Good
 
 ```js
-it('calls handler with event object', () => {
+it("calls handler with event object", () => {
   // ...
 });
 ```
@@ -364,33 +364,30 @@ Don't rely on [shared state](https://robots.thoughtbot.com/lets-not) set up in a
 1. Setup/Arrange
 1. Exercise/Act
 1. Verify/Assert
-1. (Teardown)*
+1. (Teardown)\*
 
 > \* Requiring teardown in a test is a code-smell and is usually the result of stubbing a global method which should be passed in as a dependency.
 
-**Example (Using React + Enzyme)**
+#### Example (Using React + Enzyme)
 
 ```js
-it('renders stat and label of currently selected datum', () => {
+it("renders stat and label of currently selected datum", () => {
   // Setup/Arrange
   const data = [
-    { x: 'Cats', y: 2 },
-    { x: 'Dogs', y: 17 },
+    { x: "Cats", y: 2 },
+    { x: "Dogs", y: 17 },
   ];
 
   // Exercise/Act
   const root = mount(<DoughnutChart data={data} />);
-  const subject = root
-    .find('VictoryPie')
-    .find(HighlightableSlice)
-    .at(1);
-  subject.simulate('mouseover');
+  const subject = root.find("VictoryPie").find(HighlightableSlice).at(1);
+  subject.simulate("mouseover");
 
   // Verify/Assert
-  const stat = root.find('.highlight-stat').text();
-  const label = root.find('.highlight-label').text();
-  expect(stat).toBe('17');
-  expect(label).toBe('Dogs');
+  const stat = root.find(".highlight-stat").text();
+  const label = root.find(".highlight-label").text();
+  expect(stat).toBe("17");
+  expect(label).toBe("Dogs");
 });
 ```
 
@@ -408,9 +405,13 @@ it('renders stat and label of currently selected datum', () => {
 
 ## Resources
 
-* https://martinfowler.com/articles/mocksArentStubs.html
-* https://robots.thoughtbot.com/four-phase-test
-* https://robots.thoughtbot.com/lets-not
-* https://robots.thoughtbot.com/factories-should-be-the-bare-minimum
-* https://robots.thoughtbot.com/mystery-guest https://www.youtube.com/watch?v=R9FOchgTtLM
-* http://xunitpatterns.com/Test%20Double.html
+<!-- markdownlint-disable no-bare-urls -->
+
+- https://martinfowler.com/articles/mocksArentStubs.html
+- https://robots.thoughtbot.com/four-phase-test
+- https://robots.thoughtbot.com/lets-not
+- https://robots.thoughtbot.com/factories-should-be-the-bare-minimum
+- https://robots.thoughtbot.com/mystery-guest https://www.youtube.com/watch?v=R9FOchgTtLM
+- http://xunitpatterns.com/Test%20Double.html
+
+<!-- markdownlint-disable no-bare-urls -->

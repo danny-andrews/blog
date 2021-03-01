@@ -1,6 +1,7 @@
 {
   "default": true,
-  "line-length": { "code_blocks": false },
+  "line-length": false,
   "no-inline-html": false,
-  "no-duplicate-header": false
+  "no-duplicate-header": false,
+  "ul-style": { "style": "dash" }
 }

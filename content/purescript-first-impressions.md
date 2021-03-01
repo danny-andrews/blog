@@ -72,7 +72,11 @@ I've had a really great time with PureScript so far. I haven't attempted to publ
 
 ## My PureScript Wishlist
 
+<!-- markdownlint-disable no-bare-urls -->
+
 1. Expanded documentation for core modules. All I'm asking for is a comment explaining why a module exists and what it's use-cases are. Type signatures tell us a lot, but nothing beats even just one concrete example usage.
 2. Web version of https://github.com/purescript/documentation. GitHub isn't ideal for consuming content.
 3. Simplified effect handling. No runtime errors by default from standard libraries like `FS.readFile`.
 4. Cool it with the custom operators. 😎 It really hurts adoption...just ask the Scala community.
+
+<!-- markdownlint-restore -->

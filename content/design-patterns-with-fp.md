@@ -17,15 +17,17 @@ These are the questions this article attempts to answer. So let's take another l
 > For an explanation of patterns, and their classical OOP solutions, head [here](https://github.com/kamranahmedse/design-patterns-for-humans). Or check out the [source](https://www.amazon.com/Design-Patterns-Object-Oriented-Addison-Wesley-Professional-ebook/dp/B000SEIBB8).
 
 ## Conditions
+
 \- Class-based inheritance  
 \+ First-class functions  
 \+ Partial function application (currying)  
 \+ Monads
 
 ## Terms
-* Lambda - A function used as data (usually synonymous with anonymous function).
-* Client - The consumer of the pattern artifact.
-* Object Composition - "The act of combining component pieces to form a new object." [\*](https://medium.com/javascript-scene/the-open-minded-explorer-s-guide-to-object-composition-88fe68961bed)
+
+- Lambda - A function used as data (usually synonymous with anonymous function).
+- Client - The consumer of the pattern artifact.
+- Object Composition - "The act of combining component pieces to form a new object." [\*](https://medium.com/javascript-scene/the-open-minded-explorer-s-guide-to-object-composition-88fe68961bed)
 
 ### 🚫 ~~Builder~~
 
@@ -36,12 +38,12 @@ const Burger = (size, cheese = true, tomato = false, lettuce = true) => ({
   /* ... */
 });
 
-const myBurger = Burger('big', true, true); // What do these params mean?
+const myBurger = Burger("big", true, true); // What do these params mean?
 ```
 
 💡 OOP Solution: Break out construction process into steps (e.g. `addCheese`, `addTomato`).  
-🔥 OOP + FP Solution: At first blush, it would seem this pattern seems contrary to FP principles. It's analogous to building a value via assignment rather than using function composition. Also, having many params for a constructor in the first place is a code smell, and we shouldn't accept patterns which cover up code smells (aka, Febreze Patterns). Possible alternatives:  
-  
+🔥 OOP + FP Solution: At first blush, it would seem this pattern seems contrary to FP principles. It's analogous to building a value via assignment rather than using function composition. Also, having many params for a constructor in the first place is a code smell, and we shouldn't accept patterns which cover up code smells (aka, Febreze Patterns). Possible alternatives:
+
 1\. Use keyword arguments.
 
 <details>
@@ -52,8 +54,9 @@ const Burger = ({ size, cheese = true, tomato = false, lettuce = true }) => ({
   /* ... */
 });
 
-const cheeseburgerWithTomato = Burger({ size: 'big', tomato: true });
+const cheeseburgerWithTomato = Burger({ size: "big", tomato: true });
 ```
+
 </details>
 <br/>
 2\. Use currying.
@@ -62,18 +65,17 @@ const cheeseburgerWithTomato = Burger({ size: 'big', tomato: true });
   <summary>Code Example</summary>
 
 ```js
-import R from 'ramda';
+import R from "ramda";
 
-const Burger = R.curry(
-  (size, cheese, tomato, lettuce) => ({
-    /* ... */
-  })
-);
+const Burger = R.curry((size, cheese, tomato, lettuce) => ({
+  /* ... */
+}));
 
-const BigBurger = Burger('big');
+const BigBurger = Burger("big");
 const BigCheeseBurger = BigBurger(true);
 const bigCheeseBurgerWithTomato = BigCheeseBurger(true, false);
 ```
+
 </details>
 <br/>
 3\. Consider breaking your object apart as it probably has too many concerns.
@@ -88,46 +90,48 @@ const bigCheeseBurgerWithTomato = BigCheeseBurger(true, false);
   <summary>Code Example</summary>
 
 ```js
-import {Reader} from 'monet';
-import R from 'ramda';
+import { Reader } from "monet";
+import R from "ramda";
 
-const updateProfile = (id, attributes) => Reader(
-    ({ db }) => db.update('profile', id, attributes)
-  );
+const updateProfile = (id, attributes) =>
+  Reader(({ db }) => db.update("profile", id, attributes));
 
-const getUser = id => Reader(({ db }) => db.get('user', id));
+const getUser = (id) => Reader(({ db }) => db.get("user", id));
 
-const main = () => getUser(5)
-  .chain(user => updateProfile(user.profileId, { catchprase: 'Phrasing!' }))
-  .map(R.prop('catchprase'))
-  .map(console.log);
+const main = () =>
+  getUser(5)
+    .chain((user) => updateProfile(user.profileId, { catchprase: "Phrasing!" }))
+    .map(R.prop("catchprase"))
+    .map(console.log);
 
 const MyDB = () => {
   const data = {
     user: {
-      5: { name: 'Sterling Archer', profileId: 34 }
+      5: { name: "Sterling Archer", profileId: 34 },
     },
     profile: {
-      34: { catchprase: 'Phrasing!' }
-    }
+      34: { catchprase: "Phrasing!" },
+    },
   };
 
   const get = (type, id) => data[type][id];
-  const update = (type, id, attributes) => data[type][id] = {
-    ...data[type][id],
-    ...attributes
-  };
+  const update = (type, id, attributes) =>
+    (data[type][id] = {
+      ...data[type][id],
+      ...attributes,
+    });
 
   return { get, update };
-}
+};
 
 main().run({
-  db: MyDB({ username: 'fj3hro3', password: 'secret' })
+  db: MyDB({ username: "fj3hro3", password: "secret" }),
 });
 
 // Ouptut:
 // Phrasing!
 ```
+
 </details>
 
 ### 👻 Visitor
@@ -143,58 +147,60 @@ main().run({
 const BookVisitee = ({ title, author }) => ({
   title,
   author,
-  constructor: BookVisitee
+  constructor: BookVisitee,
 });
 const SoftwareVisitee = ({ title, name, url }) => ({
   title,
   name,
   url,
-  constructor: SoftwareVisitee
+  constructor: SoftwareVisitee,
 });
 
-const fancyVisitor = visitee => {
+const fancyVisitor = (visitee) => {
   // This would be handled via pattern matching in a statically-typed
   //   functional language.
-  switch(visitee.constructor) {
-  case BookVisitee:
-    return `${visitee.title}...!*@*! written !*! by !@! ${visitee.author}`;
-  case SoftwareVisitee:
-    return `${visitee.title}...!!! made !*! by !@@! ${visitee.name}...www website !**! at http://${visitee.url}`;
+  switch (visitee.constructor) {
+    case BookVisitee:
+      return `${visitee.title}...!*@*! written !*! by !@! ${visitee.author}`;
+    case SoftwareVisitee:
+      return `${visitee.title}...!!! made !*! by !@@! ${visitee.name}...www website !**! at http://${visitee.url}`;
   }
 };
 
-const plainVisitor = visitee => {
-  switch(visitee.constructor) {
-  case BookVisitee:
-    return `${visitee.title}. written by ${visitee.author}`;
-  case SoftwareVisitee:
-    return `${visitee.title}. made by ${visitee.name}. website at ${visitee.url}`;
+const plainVisitor = (visitee) => {
+  switch (visitee.constructor) {
+    case BookVisitee:
+      return `${visitee.title}. written by ${visitee.author}`;
+    case SoftwareVisitee:
+      return `${visitee.title}. made by ${visitee.name}. website at ${visitee.url}`;
   }
 };
 
 const book = BookVisitee({
-  title: 'Design Patterns',
-  author: 'Gamma, Helm, Johnson, and Vlissides'
+  title: "Design Patterns",
+  author: "Gamma, Helm, Johnson, and Vlissides",
 });
 const software = SoftwareVisitee({
-  title: 'Zend Studio',
-  name: 'Zend Technologies',
-  url: 'www.zend.com'
+  title: "Zend Studio",
+  name: "Zend Technologies",
+  url: "www.zend.com",
 });
 
-console.log('Plain description of book: ', plainVisitor(book));
-console.log('Plain description of software: ', plainVisitor(software));
-console.log('Fancy description of book: ', fancyVisitor(book));
-console.log('Fancy description of software: ', fancyVisitor(software));
+console.log("Plain description of book: ", plainVisitor(book));
+console.log("Plain description of software: ", plainVisitor(software));
+console.log("Fancy description of book: ", fancyVisitor(book));
+console.log("Fancy description of software: ", fancyVisitor(software));
 
 // Plain description of book:  Design Patterns. written by Gamma, Helm, Johnson, and Vlissides
 // Plain description of software:  Zend Studio. made by Zend Technologies. website at www.zend.com
 // Fancy description of book:  Design Patterns...!*@*! written !*! by !@! Gamma, Helm, Johnson, and Vlissides
 // Fancy description of software:  Zend Studio...!!! made !*! by !@@! Zend Technologies...www website !**! at http://www.zend.com
 ```
+
 </details>
 
 ### 👻 Command
+
 ⛓ Purpose: Encapsulate actions in objects. Decouple client from receiver.  
 💡 OOP Solution: Create a `Command` object with an `execute` method. This can encapsulate the action.  
 🔥 OOP + FP Solution: Use lambdas. Since functions are first-class citizens, there's no need to create an object to encapsulate an action.
@@ -205,13 +211,13 @@ console.log('Fancy description of software: ', fancyVisitor(software));
 ```js
 // Receiver
 const Bulb = () => ({
-  turnOn: () => console.log('Bulb has been lit'),
-  turnOff: () => console.log('Darkness!'),
+  turnOn: () => console.log("Bulb has been lit"),
+  turnOff: () => console.log("Darkness!"),
 });
 
 // Invoker
 const RemoteControl = () => ({
-  submit: command => command()
+  submit: (command) => command(),
 });
 
 const bulb = Bulb();
@@ -223,9 +229,11 @@ remote.submit(bulb.turnOff);
 // Bulb has been lit!
 // Darkness!
 ```
+
 </details>
 
 ### 👻 Iterator
+
 ⛓ Purpose: Provide a way to access the elements of an object without exposing its underlying representation.  
 💡 OOP Solution: Define an interface which iterable classes must implement.  
 🔥 OOP + FP Solution: Prefer higher order functions (`forEach`, `map`, `reduce`) for iterating over objects.
@@ -234,21 +242,23 @@ remote.submit(bulb.turnOff);
   <summary>Code Example</summary>
 
 ```js
-const RadioStation = frequency => ({ frequency });
+const RadioStation = (frequency) => ({ frequency });
 
 const StationList = () => {
   let stations = [];
   let counter = 0;
 
-  const addStation = station => { stations.push(station) };
-  const removeStation = station => {
-    stations = stations.filter(item => item !== station)
+  const addStation = (station) => {
+    stations.push(station);
+  };
+  const removeStation = (station) => {
+    stations = stations.filter((item) => item !== station);
   };
 
   return {
     addStation,
     removeStation,
-    forEach: (...args) => stations.forEach(...args)
+    forEach: (...args) => stations.forEach(...args),
   };
 };
 
@@ -259,7 +269,7 @@ stationList.addStation(station89);
 stationList.addStation(RadioStation(101));
 stationList.addStation(RadioStation(102));
 stationList.addStation(RadioStation(103.2));
-stationList.forEach(station => console.log(station.frequency));
+stationList.forEach((station) => console.log(station.frequency));
 
 // Output:
 // 89
@@ -268,13 +278,14 @@ stationList.forEach(station => console.log(station.frequency));
 // 103.2
 
 stationList.removeStation(station89);
-stationList.forEach(station => console.log(station.frequency));
+stationList.forEach((station) => console.log(station.frequency));
 
 // Output:
 // 101
 // 102
 // 103.2
 ```
+
 </details>
 
 ### 👻 Strategy
@@ -287,18 +298,18 @@ stationList.forEach(station => console.log(station.frequency));
   <summary>Code Example</summary>
 
 ```js
-const lazySortStrategy = list => {
-  console.log('Sorting using lazy sort');
+const lazySortStrategy = (list) => {
+  console.log("Sorting using lazy sort");
   return list;
 };
 
-const lolSortStrategy = list => {
-  console.log('Sorting using lol sort');
+const lolSortStrategy = (list) => {
+  console.log("Sorting using lol sort");
   return [1, 0, 1];
 };
 
-const Sorter = sortStrategy => ({
-  sort: list => sortStrategy(list)
+const Sorter = (sortStrategy) => ({
+  sort: (list) => sortStrategy(list),
 });
 
 const dataset = [1, 5, 4, 3, 2, 8];
@@ -313,6 +324,7 @@ lolSorter.sort(dataset);
 // Sorting using lazy sort
 // Sorting using lol sort
 ```
+
 </details>
 
 ### 🎉 Factory
@@ -327,15 +339,15 @@ I combined the Abstract Factory and Factory Method patterns, since we are disall
   <summary>Code Example</summary>
 
 ```js
-const SoundPlayerFactory = hasAudioApi => hasAudioApi
-  ? AudioContextSoundPlayer
-  : AudioTagSoundPlayer;
+const SoundPlayerFactory = (hasAudioApi) =>
+  hasAudioApi ? AudioContextSoundPlayer : AudioTagSoundPlayer;
 
 // This piece of code shouldn't be concerned with what player to fallback to if
 //   AudioContext isn't supported: it just wants a sound player!
-const SoundPlayer = SoundPlayerFactory(detectFeature('audio-api'));
-const soundPlayer = SoundPlayer('mysound.mp3');
+const SoundPlayer = SoundPlayerFactory(detectFeature("audio-api"));
+const soundPlayer = SoundPlayer("mysound.mp3");
 ```
+
 </details>
 
 ### 🎉 Composite
@@ -348,17 +360,19 @@ const soundPlayer = SoundPlayer('mysound.mp3');
   <summary>Code Example</summary>
 
 ```js
-const File = name => ({
-  ls: (indent = '') => console.log(indent + name)
+const File = (name) => ({
+  ls: (indent = "") => console.log(indent + name),
 });
 
-const Directory = name => {
+const Directory = (name) => {
   let includedFiles = [];
-  const ls = (indent = '') => {
+  const ls = (indent = "") => {
     console.log(indent + name);
-    includedFiles.forEach(includedFile => includedFile.ls(indent + '  '));
-  }
-  const add = file => { includedFiles = [...includedFiles, file] };
+    includedFiles.forEach((includedFile) => includedFile.ls(indent + "  "));
+  };
+  const add = (file) => {
+    includedFiles = [...includedFiles, file];
+  };
 
   return { ls, add };
 };
@@ -390,6 +404,7 @@ music.ls();
 //          Rainbow in the dark.mp3
 //    track2.m3u
 ```
+
 </details>
 
 ### 🎉 Flyweight
@@ -402,35 +417,33 @@ music.ls();
   <summary>Code Example</summary>
 
 ```js
-import R from 'ramda';
+import R from "ramda";
 
 // Anything that will be cached is flyweight.
 // Types of tea here will be flyweights.
-const GreenTea = strength => ({ name: 'Green Tea', strength });
-const EarlGreyTea = strength => ({ name: 'Earl Grey Tea', strength });
+const GreenTea = (strength) => ({ name: "Green Tea", strength });
+const EarlGreyTea = (strength) => ({ name: "Earl Grey Tea", strength });
 
 // Two patterns in one example!? Awwwwwww shiiiiiii boiiiiiii!
-const TeaFactory = type => {
-  switch(type){
-  case 'green':
-    return GreenTea;
-  case 'earl-grey':
-    return EarlGreyTea;
+const TeaFactory = (type) => {
+  switch (type) {
+    case "green":
+      return GreenTea;
+    case "earl-grey":
+      return EarlGreyTea;
   }
 };
 
 const TeaMaker = () => {
   let availableTea = {};
 
-  const make = R.memoize(type =>
-    R.tap(tea => console.log(`Making ${tea.name}!`))(
-      TeaFactory(type)(3)
-    )
+  const make = R.memoize((type) =>
+    R.tap((tea) => console.log(`Making ${tea.name}!`))(TeaFactory(type)(3))
   );
 
   // Just for comparison.
-  const makeWithoutMemoization = type => {
-    if(!availableTea[type]) {
+  const makeWithoutMemoization = (type) => {
+    if (!availableTea[type]) {
       const tea = TeaFactory(type)();
       console.log(`Making ${tea.name}!`);
       availableTea[type] = tea;
@@ -442,21 +455,20 @@ const TeaMaker = () => {
   return { make };
 };
 
-const TeaShop = teaMaker => {
+const TeaShop = (teaMaker) => {
   let orders = {};
 
   const takeOrder = (teaType, tableNum) => {
     orders = {
       [tableNum]: teaMaker.make(teaType),
-      ...orders 
+      ...orders,
     };
   };
   const serve = () => {
-    R.toPairs(orders)
-      .forEach(([tableNum, tea]) =>
-        console.log(`Serving tea: ${tea.name} to table #${tableNum}`)
-      );
-  }
+    R.toPairs(orders).forEach(([tableNum, tea]) =>
+      console.log(`Serving tea: ${tea.name} to table #${tableNum}`)
+    );
+  };
 
   return { takeOrder, serve };
 };
@@ -464,10 +476,10 @@ const TeaShop = teaMaker => {
 const teaMaker = TeaMaker();
 const shop = TeaShop(teaMaker);
 
-shop.takeOrder('green', 1);
-shop.takeOrder('earl-grey', 2);
-shop.takeOrder('earl-grey', 4);
-shop.takeOrder('green', 24);
+shop.takeOrder("green", 1);
+shop.takeOrder("earl-grey", 2);
+shop.takeOrder("earl-grey", 4);
+shop.takeOrder("green", 24);
 
 shop.serve();
 
@@ -479,6 +491,7 @@ shop.serve();
 // Serving tea: Earl Grey Tea to table #4
 // Serving tea: Green Tea to table #24
 ```
+
 </details>
 
 ### 🎉 Template
@@ -491,40 +504,42 @@ shop.serve();
   <summary>Code Example</summary>
 
 ```js
-import R from 'ramda';
+import R from "ramda";
 
-const compact = list => R.reject(item => !item, list);
+const compact = (list) => R.reject((item) => !item, list);
 
 const compactAndJoin = (separator, list) =>
   R.pipe(compact, R.join(separator))(list);
 
 const TemplateBookViewer = ({ processTitle, processAuthor = R.identity }) => ({
-  showBookTitleInfo: book => {
+  showBookTitleInfo: (book) => {
     const processedTitle = processTitle(book.title());
     const processedAuthor = processAuthor(book.author());
 
-    return compactAndJoin(' by ', [processedTitle, processedAuthor]);
-  }
+    return compactAndJoin(" by ", [processedTitle, processedAuthor]);
+  },
 });
 
-const EnthusiasticBookViewer = () => TemplateBookViewer({
-  processTitle: R.replace(/ /g, '!!!'),
-  processAuthor: R.replace(/ /g, '!!!')
-});
+const EnthusiasticBookViewer = () =>
+  TemplateBookViewer({
+    processTitle: R.replace(/ /g, "!!!"),
+    processAuthor: R.replace(/ /g, "!!!"),
+  });
 
-const HyphenBookViewer = () => TemplateBookViewer({
-  processTitle: R.replace(/ /g, '-')
-});
+const HyphenBookViewer = () =>
+  TemplateBookViewer({
+    processTitle: R.replace(/ /g, "-"),
+  });
 
-const Book = ({ title, author = '' }) => ({
+const Book = ({ title, author = "" }) => ({
   title: () => title,
-  author: () => author
+  author: () => author,
 });
 
-const book = Book({ title: 'PHP for Cats' });
+const book = Book({ title: "PHP for Cats" });
 const book2 = Book({
-  title: 'How to Disapoint People and Lose Friends',
-  author: 'Me'
+  title: "How to Disapoint People and Lose Friends",
+  author: "Me",
 });
 
 const enthusiasticBookViewer = EnthusiasticBookViewer();
@@ -539,6 +554,7 @@ console.log(hyphenBookViewer.showBookTitleInfo(book2));
 // PHP-for-Cats
 // How-to-Disapoint-People-and-Lose-Friends by Every Millinial, Ever
 ```
+
 </details>
 
 ### 🎉 Observer (Pub/Sub)
@@ -551,38 +567,40 @@ console.log(hyphenBookViewer.showBookTitleInfo(book2));
   <summary>Code Example</summary>
 
 ```js
-const JobPost = title => ({ title });
+const JobPost = (title) => ({ title });
 
-const JobSeeker = name => ({
-  onJobPosted: job => console.log(`Hi ${name}. New job posted: ${job.title}`)
+const JobSeeker = (name) => ({
+  onJobPosted: (job) => console.log(`Hi ${name}. New job posted: ${job.title}`),
 });
 
 // With lambdas we can build generic Publisher!
 const Publisher = () => {
   let handlers = [];
-  const notify = (...args) => handlers.forEach(handler => handler(...args));
-  const attach = handler => {
-    handlers = [...handlers, handler]
+  const notify = (...args) => handlers.forEach((handler) => handler(...args));
+  const attach = (handler) => {
+    handlers = [...handlers, handler];
   };
 
   return { notify, attach };
 };
 
-const johnDoe = JobSeeker('John Doe');
-const janeDoe = JobSeeker('Jane Doe');
+const johnDoe = JobSeeker("John Doe");
+const janeDoe = JobSeeker("Jane Doe");
 const publisher = Publisher();
 publisher.attach(johnDoe.onJobPosted);
 publisher.attach(janeDoe.onJobPosted);
-publisher.notify(JobPost('Software Engineer'));
+publisher.notify(JobPost("Software Engineer"));
 
 // Output:
 // Hi John Doe! New job posted: Software Engineer
 // Hi Jane Doe! New job posted: Software Engineer
 ```
+
 </details>
 
 ### 🎉 Chain of Responsibility
-⛓ Purpose: Build a response chain. Hide from the client the process of finding a suitable handler.   
+
+⛓ Purpose: Build a response chain. Hide from the client the process of finding a suitable handler.  
 💡 OOP Solution: Create an object which links a list of handlers together and handles the process of finding a suitable one in response to a request.  
 🔥 OOP + FP Solution: Monadic composition.
 
@@ -590,37 +608,39 @@ publisher.notify(JobPost('Software Engineer'));
   <summary>Code Example</summary>
 
 ```js
-const {Either} = require('monet');
+const { Either } = require("monet");
 
-const Account = ({balance, name}) => {
+const Account = ({ balance, name }) => {
   let successor;
 
-  const canPay = amount => balance >= amount;
-  const pay = amountToPay => {
-    if(canPay(amountToPay)) {
+  const canPay = (amount) => balance >= amount;
+  const pay = (amountToPay) => {
+    if (canPay(amountToPay)) {
       console.log(`Paid ${amountToPay} using ${name}`);
       return Either.Left();
     } else {
       console.log(`Cannot pay with ${name}. Proceeding...`);
       return Either.Right(amountToPay);
     }
-  }
+  };
 
   return { pay };
 };
 
-const Bank = balance => Account({ balance, name: 'Bank' });
-const PayPal = balance => Account({ balance, name: 'PayPal' });
-const Bitcoin = balance => Account({ balance, name: 'Bitcoin' });
+const Bank = (balance) => Account({ balance, name: "Bank" });
+const PayPal = (balance) => Account({ balance, name: "PayPal" });
+const Bitcoin = (balance) => Account({ balance, name: "Bitcoin" });
 
 const bank = Bank(100);
 const paypal = PayPal(200);
 const bitcoin = Bitcoin(300);
 
-const pay = amount => bank.pay(amount)
-  .chain(paypal.pay)
-  .chain(bitcoin.pay)
-  .chain(() => console.log('Insufficient amount!'))
+const pay = (amount) =>
+  bank
+    .pay(amount)
+    .chain(paypal.pay)
+    .chain(bitcoin.pay)
+    .chain(() => console.log("Insufficient amount!"));
 
 pay(259);
 
@@ -637,6 +657,7 @@ pay(400);
 // Cannot pay with Bitcoin. Proceeding...
 // Insufficient amount!
 ```
+
 </details>
 
 ### ✅ Adapter
@@ -649,24 +670,24 @@ pay(400);
   <summary>Code Example</summary>
 
 ```js
-import R from 'ramda';
+import R from "ramda";
 
 const AfricanLion = () => ({
-  roar: () => console.log('rarr')
+  roar: () => console.log("rarr"),
 });
 const AsianLion = () => ({
-  roar: () => console.log('rawr')
+  roar: () => console.log("rawr"),
 });
 const WildDog = () => ({
-  bark: () => console.log('woof')
+  bark: () => console.log("woof"),
 });
 
 // Wow! That was easy! Great moves, keep it up, proud of you!
-const DogToLionAdapter = dog => ({
-  roar: dog.bark
+const DogToLionAdapter = (dog) => ({
+  roar: dog.bark,
 });
 
-const Hunter = () => ({ hunt: lion => lion.roar() });
+const Hunter = () => ({ hunt: (lion) => lion.roar() });
 
 // A new constructor!
 const HuntableWildDog = R.pipe(WildDog, DogToLionAdapter);
@@ -678,6 +699,7 @@ hunter.hunt(wildDog);
 
 // Output: woof
 ```
+
 </details>
 
 ### ✅ Bridge
@@ -690,19 +712,19 @@ hunter.hunt(wildDog);
   <summary>Code Example</summary>
 
 ```js
-const About = theme => ({
-  getContent: () => `About page in striking ${theme.color()}`
+const About = (theme) => ({
+  getContent: () => `About page in striking ${theme.color()}`,
 });
 
-const Careers = theme => ({
-  getContent: () => `Careers page in striking ${theme.color()}`
+const Careers = (theme) => ({
+  getContent: () => `Careers page in striking ${theme.color()}`,
 });
 
 const DarkTheme = () => ({
-  color: () => 'Dark Black'
+  color: () => "Dark Black",
 });
 const AquaTheme = () => ({
-  color: () => 'Light Blue'
+  color: () => "Light Blue",
 });
 
 const darkTheme = DarkTheme();
@@ -710,13 +732,14 @@ const aquaTheme = AquaTheme();
 const about = About(darkTheme);
 const careers = Careers(aquaTheme);
 
-console.log(about.getContent());    
+console.log(about.getContent());
 console.log(careers.getContent());
 
 // Output:
 // About page in striking Dark Black
 // Careers page in striking Light Blue
 ```
+
 </details>
 
 ### ✅ Decorator
@@ -729,29 +752,32 @@ console.log(careers.getContent());
   <summary>Code Example</summary>
 
 ```js
-import R from 'ramda';
+import R from "ramda";
 
 const SimpleCoffee = () => ({
   cost: () => 10,
-  description: () => 'Simple coffee'
+  description: () => "Simple coffee",
 });
 
-const SugarCoffeeDecorator = coffee => ({
+const SugarCoffeeDecorator = (coffee) => ({
   cost: coffee.cost,
-  description: () => coffee.description() + ', sugar'
+  description: () => coffee.description() + ", sugar",
 });
 
-const MilkCoffeeDecorator = coffee => ({
+const MilkCoffeeDecorator = (coffee) => ({
   cost: () => coffee.cost() + 2,
-  description: () => coffee.description() + ', milk',
-  sour: () => console.log('Left me out too long, bro')
+  description: () => coffee.description() + ", milk",
+  sour: () => console.log("Left me out too long, bro"),
 });
 
 const simpleCoffee = SimpleCoffee();
 console.log(simpleCoffee.cost());
 console.log(simpleCoffee.description());
 
-const sweetLatte = R.pipe(SugarCoffeeDecorator, MilkCoffeeDecorator)(simpleCoffee);
+const sweetLatte = R.pipe(
+  SugarCoffeeDecorator,
+  MilkCoffeeDecorator
+)(simpleCoffee);
 console.log(sweetLatte.cost());
 console.log(sweetLatte.description());
 sweetLatte.sour();
@@ -762,8 +788,8 @@ sweetLatte.sour();
 // 12
 // Simple coffee, sugar, milk
 // Left me out too long, bro
-
 ```
+
 </details>
 
 ### ✅ Facade
@@ -776,7 +802,7 @@ sweetLatte.sour();
   <summary>Code Example</summary>
 
 ```js
-import R from 'ramda';
+import R from "ramda";
 
 const Computer = () => ({
   getElectricShock: () => console.log("Ouch!"),
@@ -785,10 +811,10 @@ const Computer = () => ({
   bam: () => console.log("Ready to be used!"),
   closeEverything: () => console.log("Bup bup bup buzzzz!"),
   sooth: () => console.log("Zzzzz..."),
-  pullCurrent: () => console.log("Haaah!")
+  pullCurrent: () => console.log("Haaah!"),
 });
 
-const ComputerFacade = computer => ({
+const ComputerFacade = (computer) => ({
   turnOn: () => {
     computer.getElectricShock();
     computer.makeSound();
@@ -799,7 +825,7 @@ const ComputerFacade = computer => ({
     computer.closeEverything();
     computer.pullCurrent();
     computer.sooth();
-  }
+  },
 });
 
 // Look ma, a new constructor!
@@ -821,6 +847,7 @@ computer.turnOff();
 // Haah!
 // Zzzzz...
 ```
+
 </details>
 
 ### ✅ Proxy
@@ -833,29 +860,28 @@ computer.turnOff();
   <summary>Code Example</summary>
 
 ```js
-import R from 'ramda';
+import R from "ramda";
 
-const Door = (color = 'red') => ({
-  open: () => console.log('Opening lab door'),
-  close: () => console.log('Closing lab door'),
-  color: () => color
+const Door = (color = "red") => ({
+  open: () => console.log("Opening lab door"),
+  close: () => console.log("Closing lab door"),
+  color: () => color,
 });
 
-const SecureDoor = color => {
+const SecureDoor = (color) => {
   const door = Door(color);
-  const authenticate = password => password === '$ecr3t';
-  const open = password => authenticate(password)
-    ? door.open()
-    : console.log('Uh oh! No can do.');
+  const authenticate = (password) => password === "$ecr3t";
+  const open = (password) =>
+    authenticate(password) ? door.open() : console.log("Uh oh! No can do.");
   const close = door.close;
 
   return { open, close };
 };
 
-door = SecureDoor('blue');
-door.open('invalid');
+door = SecureDoor("blue");
+door.open("invalid");
 
-door.open('$ecr3t');
+door.open("$ecr3t");
 door.close();
 
 // Output:
@@ -867,18 +893,18 @@ door.close();
 Since ES6, JavaScript provides the `Proxy` object, which allows us to simplify the `SecurityDoor` constructor to this:
 
 ```js
-const SecureDoor = color => {
+const SecureDoor = (color) => {
   const door = Door(color);
-  const authenticate = password => password === '$ecr3t';
-  const open = password => authenticate(password)
-    ? door.open()
-    : console.log('Uh oh! No can do.');
+  const authenticate = (password) => password === "$ecr3t";
+  const open = (password) =>
+    authenticate(password) ? door.open() : console.log("Uh oh! No can do.");
 
-  return new Proxy(door, {open});
-}
+  return new Proxy(door, { open });
+};
 ```
 
 Notice we didn't need to explicitly delegate the close method to the underlying door instance. This is done for us automatically by the `Proxy`. Pretty cool!
+
 </details>
 
 ### ✅ Mediator
@@ -891,30 +917,31 @@ Notice we didn't need to explicitly delegate the close method to the underlying 
   <summary>Code Example</summary>
 
 ```js
-import R from 'ramda';
+import R from "ramda";
 
 const ChatRoomMediator = () => ({
-  showMessage: R.curry((username, message) => console.log(`Jan 2, 10:58 [${username}]: ${message}`))
+  showMessage: R.curry((username, message) =>
+    console.log(`Jan 2, 10:58 [${username}]: ${message}`)
+  ),
 });
 
-const User = R.curry(
-  (chatMediator, { name }) => ({
-    send: chatMediator.showMessage(name)
-  })
-);
+const User = R.curry((chatMediator, { name }) => ({
+  send: chatMediator.showMessage(name),
+}));
 
 const mediator = ChatRoomMediator();
 const MediatedUser = User(mediator);
 
-const john = MediatedUser({ name: 'John Doe' });
-const jane = MediatedUser({ name: 'Jane Doe' });
-john.send('Hi there!');
-jane.send('Hey!');
+const john = MediatedUser({ name: "John Doe" });
+const jane = MediatedUser({ name: "Jane Doe" });
+john.send("Hi there!");
+jane.send("Hey!");
 
 // Output:
 // Jan 2, 10:58 [John Doe]: Hi there!
 // Jan 2, 10:58 [Jane Doe]: Hey!
 ```
+
 </details>
 
 ### 🤔 Momento
@@ -927,26 +954,26 @@ jane.send('Hey!');
   <summary>Code Example</summary>
 
 ```js
-const EditorMemento = content => ({content});
+const EditorMemento = (content) => ({ content });
 
 const Editor = () => {
-  let content = '';
-  const type = words => {
-    content = [content, words].join(' ');
-  }
+  let content = "";
+  const type = (words) => {
+    content = [content, words].join(" ");
+  };
   const save = () => EditorMemento(content);
-  const restore = momento => {
-    content = momento.content
+  const restore = (momento) => {
+    content = momento.content;
   };
 
   return { type, save, restore, content: () => content };
-}
+};
 
 editor = Editor();
-editor.type('This is the first sentence.');
-editor.type('This is second.');
+editor.type("This is the first sentence.");
+editor.type("This is second.");
 saved = editor.save();
-editor.type('And this is third.');
+editor.type("And this is third.");
 console.log(editor.content());
 editor.restore(saved);
 console.log(editor.content());
@@ -955,6 +982,7 @@ console.log(editor.content());
 // This is the first sentence. This is second. And this is third.
 // This is the first sentence. This is second.
 ```
+
 </details>
 
 ### 🤔 State (FSM)
@@ -968,34 +996,34 @@ console.log(editor.content());
 
 ```js
 const UpperCase = () => ({
-  write: words => console.log(words.toUpperCase())
+  write: (words) => console.log(words.toUpperCase()),
 });
 const LowerCase = () => ({
-  write: words => console.log(words.toLowerCase())
+  write: (words) => console.log(words.toLowerCase()),
 });
 const Default = () => ({
-  write: words => console.log(words)
+  write: (words) => console.log(words),
 });
 
-const TextEditor = initialState => {
+const TextEditor = (initialState) => {
   let state = initialState;
 
-  const setState = newState => {
-    state = newState
+  const setState = (newState) => {
+    state = newState;
   };
-  const type = words => state.write(words);
+  const type = (words) => state.write(words);
 
   return { setState, type };
 };
 
 const editor = TextEditor(Default());
-editor.type('First line');
+editor.type("First line");
 editor.setState(UpperCase());
-editor.type('Second line');
-editor.type('Third line');
+editor.type("Second line");
+editor.type("Third line");
 editor.setState(LowerCase());
-editor.type('Fourth line');
-editor.type('Fifth line');
+editor.type("Fourth line");
+editor.type("Fifth line");
 
 // Output:
 // First line
@@ -1004,6 +1032,7 @@ editor.type('Fifth line');
 // fourth line
 // fifth line
 ```
+
 </details>
 
 ### 🤔 Prototype
@@ -1013,6 +1042,7 @@ editor.type('Fifth line');
 🔥 OOP + FP Solution: 🤷 Not sure FP techniques help much here.
 
 ## Summary
+
 Of the 21 patterns we looked at:
 
 🚫 2 (Builder, Singleton) were found to be antithetical to FP.  
@@ -1023,30 +1053,33 @@ Of the 21 patterns we looked at:
 
 > Note on compositional patterns:
 >
-> * Proxy and Decorator - Both have the same interface as their wrapped types, but the proxy creates an instance under the hood, whereas the decorator takes an instance in the constructor.
-> * Adapter and Facade - Both have a different interface than what they wrap, but the adapter derives from an existing interface, whereas the facade creates a new interface.
-> * Bridge and Adapter - Both point at an existing type. The bridge will allow you to pair the implementation at runtime, whereas the adapter usually won't. With the bridge, you're not adapting to some legacy or third-party code, you're the designer of all the code but you need to be able to swap out different implementations.
+> - Proxy and Decorator - Both have the same interface as their wrapped types, but the proxy creates an instance under the hood, whereas the decorator takes an instance in the constructor.
+> - Adapter and Facade - Both have a different interface than what they wrap, but the adapter derives from an existing interface, whereas the facade creates a new interface.
+> - Bridge and Adapter - Both point at an existing type. The bridge will allow you to pair the implementation at runtime, whereas the adapter usually won't. With the bridge, you're not adapting to some legacy or third-party code, you're the designer of all the code but you need to be able to swap out different implementations.
 >
-> https://stackoverflow.com/questions/350404/how-do-the-proxy-decorator-adapter-and-bridge-patterns-differ
+> \- [Stack Overflow](https://stackoverflow.com/questions/350404/how-do-the-proxy-decorator-adapter-and-bridge-patterns-differ)
 
 It seems the terms "Builder," "Command," "Singleton," and "Iterator" can be retired and the terms "Flyweight," "Visitor," and "State" replaced with "Memoization," "Map," and "Finite State Machine."
 
 ## Conclusion
+
 Turns out a large portion of OOP design patterns, are already compositional in nature, so they translate very well to a functional style! Who knew!? Makes perfect sense, though, when you learn that the phrase "favor object composition over class inheritance" originated in the seminal book on the subject.
 
 So, anytime you hear people saying functional programming eliminates the GoF design patterns, you can tell them they are, respectfully, full of shit. :) The majority of patterns presented are still just as much relevant today as they were in 1994, they are just realized in different (often simpler) ways.
 
 ## Takeaways
-* It's better to think of design patterns in terms of what problem they are trying to solve rather than how they are implemented.
-* Even patterns which **are** [missing language features](http://wiki.c2.com/?AreDesignPatternsMissingLanguageFeatures) (Command, Strategy, Visitor, Iterator) are valuable from a nomenclature standpoint.
+
+- It's better to think of design patterns in terms of what problem they are trying to solve rather than how they are implemented.
+- Even patterns which **are** [missing language features](http://wiki.c2.com/?AreDesignPatternsMissingLanguageFeatures) (Command, Strategy, Visitor, Iterator) are valuable from a nomenclature standpoint.
 
 ## References
-* <https://github.com/kamranahmedse/design-patterns-for-humans>
-* <http://www.jot.fm/issues/issue_2008_09/article2.pdf>
-* <https://www.youtube.com/watch?v=ZlPfH6wNDpo>
-* <http://www.grahamlea.com/2014/07/lambda-design-patterns-java-8>
-* <http://www.norvig.com/design-patterns/design-patterns.pdf>
-* <https://medium.com/javascript-scene/the-open-minded-explorer-s-guide-to-object-composition-88fe68961bed>
-* <http://blog.ezyang.com/2010/05/design-patterns-in-haskel>
-* <http://www.cs.ox.ac.uk/jeremy.gibbons/publications/hodgp.pdf>
-* <https://www.voxxed.com/2016/05/gang-four-patterns-functional-light-part-1>
+
+- <https://github.com/kamranahmedse/design-patterns-for-humans>
+- <http://www.jot.fm/issues/issue_2008_09/article2.pdf>
+- <https://www.youtube.com/watch?v=ZlPfH6wNDpo>
+- <http://www.grahamlea.com/2014/07/lambda-design-patterns-java-8>
+- <http://www.norvig.com/design-patterns/design-patterns.pdf>
+- <https://medium.com/javascript-scene/the-open-minded-explorer-s-guide-to-object-composition-88fe68961bed>
+- <http://blog.ezyang.com/2010/05/design-patterns-in-haskel>
+- <http://www.cs.ox.ac.uk/jeremy.gibbons/publications/hodgp.pdf>
+- <https://www.voxxed.com/2016/05/gang-four-patterns-functional-light-part-1>

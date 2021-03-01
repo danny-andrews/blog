@@ -15,19 +15,20 @@ As with many popular libraries, I'm sure "react-css-modules" had a valid use-cas
 <!-- more -->
 
 ## "PROs"[\*](https://github.com/gajus/react-css-modules#whats-the-problem)
-**Throws error when trying to use an `undefined` class name.**
 
-Only actual pro IMHO.
+1. Throws error when trying to use an `undefined` class name.
 
----
-
-**You don't have to use the styles object whenever constructing a className.**
-
-Why is explicitness a bad thing?
+> Only actual pro IMHO.
 
 ---
 
-**Mixing CSS Modules and global CSS classes is easy.**
+1. You don't have to use the styles object whenever constructing a className.
+
+> Why is explicitness a bad thing?
+
+---
+
+1. Mixing CSS Modules and global CSS classes is easy.
 
 ```js
 // With react-css-modules
@@ -41,33 +42,33 @@ import styles from './styles.css';
 <div className=`${styles.localClass} global-class`>Hi</div>;
 ```
 
-> Yeah, the second example is *slightly* more involved, but if you're using the fantastic (and tiny) [classnames](https://github.com/JedWatson/classnames) lib, you can simplify the "css-modules" example to:
+> Yeah, the second example is _slightly_ more involved, but if you're using the fantastic (and tiny) [classnames](https://github.com/JedWatson/classnames) lib, you can simplify the "css-modules" example to:
 
 ```js
-import styles from './styles.css';
-import classnames from 'classnames';
+import styles from "./styles.css";
+import classnames from "classnames";
 
-<div className={classnames(styles.localClass, 'global-class')}>Hi</div>;
+<div className={classnames(styles.localClass, "global-class")}>Hi</div>;
 ```
 
 ---
 
-**Don't have to use `camelCase` CSS class names.**
+1. Don't have to use `camelCase` CSS class names.
 
-Okay, sure, but the same is true for "css-loader." It has a [`camelCase`](https://github.com/webpack-contrib/css-loader#camelcase) option which converts kabab-case'ed class names to `camelCase`.
+> Okay, sure, but the same is true for "css-loader." It has a [`camelCase`](https://github.com/webpack-contrib/css-loader#camelcase) option which converts kabab-case'ed class names to `camelCase`.
 
 ## CONs
 
-**Relies on side-effects**
+1. Relies on side-effects
 
 ```js
 // With css-loader
-import styles from './styles.scss';
+import styles from "./styles.scss";
 
 export default () => <div className={styles.myClass}>Hi</div>;
 
 // With react-css-modules
-import './styles.scss';
+import "./styles.scss";
 
 export default () => <div styleName="myClass">Hi</div>;
 ```
@@ -76,17 +77,17 @@ export default () => <div styleName="myClass">Hi</div>;
 
 ---
 
-**Adds magic and cognitive overhead.**
+1. Adds magic and cognitive overhead.
 
-What's the difference between `className` and `styleName`? Why are there both?
-
----
-
-**Causes [React errors](https://github.com/gajus/react-css-modules/issues?utf8=%E2%9C%93&q=unknown%20prop%20stylename%20) about unrecognized property name (`styleName`) for native DOM elements.**
+> What's the difference between `className` and `styleName`? Why are there both?
 
 ---
 
-**Requires pretty convoluted webpack config.**
+1. Causes [React errors](https://github.com/gajus/react-css-modules/issues?utf8=%E2%9C%93&q=unknown%20prop%20stylename%20) about unrecognized property name (`styleName`) for native DOM elements.
+
+---
+
+1. Requires pretty convoluted webpack config.
 
 ```js
 {
@@ -112,22 +113,22 @@ What's the difference between `className` and `styleName`? Why are there both?
 
 ---
 
-**Requires an additional dependency.**
+1. Requires an additional dependency.
 
-You're already using "css-loader" if you are importing css in your app, which already works for css modules out of the box. Why add another dependency?
-
----
-
-**Slower than using css-loader directly.**
-
-https://github.com/gajus/babel-plugin-react-css-modules#performance
+> You're already using "css-loader" if you are importing css in your app, which already works for css modules out of the box. Why add another dependency?
 
 ---
 
-**Doesn't work with webpack aliases (or [babel-plugin-module-resolver](https://github.com/tleunen/babel-plugin-module-resolver)) with [no plans to support](https://github.com/gajus/babel-plugin-react-css-modules/issues/46#issuecomment-307552410).**
+1. Slower than using css-loader directly.
+
+> [gajus/babel-plugin-react-css-modules](https://github.com/gajus/babel-plugin-react-css-modules#performance)
 
 ---
 
-**~~Generates random number for style map which causes changes to dist files even when there were no code changes.~~**
+1. Doesn't work with webpack aliases (or [babel-plugin-module-resolver](https://github.com/tleunen/babel-plugin-module-resolver)) with [no plans to support](https://github.com/gajus/babel-plugin-react-css-modules/issues/46#issuecomment-307552410).
 
-Fixed in [v2.8.0](https://github.com/gajus/babel-plugin-react-css-modules/commit/ab2fe0e0f1f7771a71af1acd5b36454f6b68b669).
+---
+
+1. ~~Generates random number for style map which causes changes to dist files even when there were no code changes.~~
+
+> Fixed in [v2.8.0](https://github.com/gajus/babel-plugin-react-css-modules/commit/ab2fe0e0f1f7771a71af1acd5b36454f6b68b669).
