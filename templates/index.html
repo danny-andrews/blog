@@ -9,9 +9,17 @@
     <meta name="description" content="{{ config.description }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <script src="https://unpkg.com/sprintf-js@1.1.2/dist/sprintf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
     <script async src="https://dannyandrews.disqus.com/embed.js"></script>
-
+    <script>
+      window.klipse_settings = {
+        selector_eval_js: '.klipse-eval-js',
+      };
+    </script>
+    <script async src="https://storage.googleapis.com/app.klipse.tech/plugin_prod/js/klipse_plugin.min.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/app.klipse.tech/css/codemirror.css">
     <link rel="stylesheet" href="{{ get_url(path="site.css", trailing_slash=false) }}">
     <link rel="stylesheet" href="{{ get_url(path="index.css", trailing_slash=false) }}">
 
@@ -22,6 +30,9 @@
   </head>
 
   <body>
+    <pre class="hidden"><code class="hidden klipse-eval-js" data-external-libs="https://unpkg.com/sprintf-js@1.1.2/dist/sprintf.min.js, https://unpkg.com/ramda@0.27.1/dist/ramda.min.js">
+    sprintf
+    </code></pre>
     <div class="container">
       <div id="mobile-navbar" class="mobile-navbar">
        <div class="mobile-header-logo">
