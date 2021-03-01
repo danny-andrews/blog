@@ -6,13 +6,13 @@ date = 2018-01-31
 tags = ["javascript", "react", "tech-assessment"]
 +++
 
+tl;dr: Use "css-loader" over "react-css-modules"/"babel-plugin-react-css-modules" because the latter relies on side-effects, adds cognitive overhead (too much magic), causes React errors in your tests, requires complex webpack config, requires an additional dependency, is slower than css-loader, and doesn't work with webpack/babel `import` aliases.
+
+<!-- more -->
+
 > Disclaimer: This article is in no way meant to belittle the react-css-modules project, or its author. Gajus is a smart dude and does a lot of great work for free for the JavaScript community to enjoy! ❤️ This is merely an evaluation of this particular library.
 
 As with many popular libraries, I'm sure "react-css-modules" had a valid use-case at the time it was created, but at the present, it's drawbacks far outweigh its benefits. This article is meant to be a warning against picking it up without thinking about what you get from it.
-
-**tl;dr: Use "css-loader" over "react-css-modules"/"babel-plugin-react-css-modules" because the latter relies on side-effects, adds cognitive overhead (too much magic), causes React errors in your tests, requires complex webpack config, requires an additional dependency, is slower than css-loader, and doesn't work with webpack/babel `import` aliases.**
-
-<!-- more -->
 
 ## "PROs"[\*](https://github.com/gajus/react-css-modules#whats-the-problem)
 

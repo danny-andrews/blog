@@ -6,9 +6,11 @@ date = 2020-11-02
 tags = ["functional-programming", "purescript"]
 +++
 
-Note: This post assumes basic knowledge of monadic effects. How they are defined, how they are used, etc.
+In this post, I'll try to walk you through my journey in writing a testable, pure, effectful program in PureScript. Hopefully it will be useful in illustrating the types of problems more advanced techniques like monad transformers, free monads, and bifunctor IO try to solve.
 
-In this post, I'll try to walk you through my journey in writing a testable, pure, effectful program in PureScript. Hopefully it will be useful in illustrating the types of problems more advanced techniques like monad transformers, free monads, and bifunctor IO try to solve. Here goes:
+<!-- more -->
+
+> This post assumes basic knowledge of monadic effects. How they are defined, how they are used, etc.
 
 Let's say we need to write a program with the following requirements:
 

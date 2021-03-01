@@ -6,11 +6,13 @@ date = 2018-02-08
 tags = ["design-patterns"]
 +++
 
-Over the last decade, the software industry has slowly been moving away from classical-inheritance in favor of more compositional patterns (mixins in Ruby, traits in Scala, etc.) and its begs the question: what happens to the OOP design patterns we've all come to know and love (or hate 😬) in a post-inheritance world? Additionally, what happens to these patterns when we have the full power of functional programming (first-class functions, partial application, monads, etc.) at our disposal?
-
-These are the questions this article attempts to answer. So let's take another look at how the classical OOP design patterns patterns manifest themselves (if at all) in a functional programming language with support for objects. Although several superior languages fit this bill (OCaml, Lisp, etc.) my code examples are going to be in JavaScript, because of its approachable syntax and large user-base.
+Over the last decade, the software industry has slowly been moving away from classical-inheritance in favor of more compositional patterns (mixins in Ruby, traits in Scala, etc.) and its begs the question: what happens to the OOP design patterns we've all come to know and love (or hate 😬) in a post-inheritance world?
 
 <!-- more -->
+
+Additionally, what happens to these patterns when we have the full power of functional programming (first-class functions, partial application, monads, etc.) at our disposal?
+
+These are the questions this article attempts to answer. So let's take another look at how the classical OOP design patterns patterns manifest themselves (if at all) in a functional programming language with support for objects. Although several superior languages fit this bill (OCaml, Lisp, etc.) my code examples are going to be in JavaScript, because of its approachable syntax and large user-base.
 
 > In my examples, I'll be using the object creation technique simliar to the one outlined [here](https://medium.com/javascript-scene/javascript-factory-functions-with-es6-4d224591a8b1). Reason: no need for `new` or `this` and no confusing `prototype` behavior. Just functions which return objects.
 >

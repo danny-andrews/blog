@@ -6,7 +6,7 @@ date = 2018-02-13
 tags = ["TIL"]
 +++
 
-Virtually every program you write will have to deal with errors somehow. And doing so almost always requires recording a message which describes what went wrong. Most often, people will construct those messages inline like the following:
+Extract error types (and their message templates) into a separate file for cleaner code.
 
 <!-- more -->
 

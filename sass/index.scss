@@ -8,6 +8,14 @@
   padding-left: 0.5rem;
 }
 
+.post__tags > * + * {
+  margin-left: 0.375rem;
+}
+
+.post__tags > a {
+  text-decoration: underline;
+}
+
 .hidden {
   display: none;
 }

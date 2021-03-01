@@ -4,6 +4,9 @@
     "markdownlint-cli": "^0.26.0"
   },
   "scripts": {
+    "build": "zola build",
+    "serve": "zola serve",
+    "deploy": "./deploy.sh",
     "lint": "markdownlint --ignore node_modules content/*.md"
   }
 }

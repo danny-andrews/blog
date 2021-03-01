@@ -6,11 +6,11 @@ date = 2018-02-13
 tags = ["functional-programming", "programming-language-theory"]
 +++
 
-This article is intended to help you methodically incorporate rad Functional Programming (FP) techniques into your everyday work.
-
-It _will not_ try to convince you that FP is a good idea (if you want to be convinced, read anything [Eric Elliott](https://medium.com/@_ericelliott) has ever written on the subject) nor will it detail FP concepts or how to implement them. For an introduction on the problems and solutions outlined here, [watch](https://www.youtube.com/watch?v=SfWR3dKnFIo) [Brian Lonsdorf](https://medium.com/@drboolean)'s talk, of which this article is tightly based on. In fact, this article is basically an outline of his talk, but with some practical advice and dank memes sprinkled in. Let's get started!
+This article is intended to help you methodically incorporate Functional Programming (FP) techniques into your everyday JavaScript.
 
 <!-- more -->
+
+It _will not_ try to convince you that FP is a good idea (if you want to be convinced, read anything [Eric Elliott](https://medium.com/@_ericelliott) has ever written on the subject) nor will it detail FP concepts or how to implement them. For an introduction on the problems and solutions outlined here, [watch](https://www.youtube.com/watch?v=SfWR3dKnFIo) [Brian Lonsdorf](https://medium.com/@drboolean)'s talk, of which this article is tightly based on. In fact, this article is basically an outline of his talk, but with some practical advice and dank memes sprinkled in. Let's get started!
 
 > 🚨🚨🚨 Update: I finished a real-world project where I put these practices to use. [Check it out](https://github.com/danny-andrews/circleci-weigh-in) and let me know what you think!
 

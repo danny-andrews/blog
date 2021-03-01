@@ -8,11 +8,11 @@ tags = ["javascript", "react", "design-patterns", "higher-order-components"]
 
 Render Props, Component Injection, Higher-Order Components, and More!
 
+<!-- more -->
+
 This set of articles is an attempt to organize my thoughts on these constructs and hopefully help others along their journey through the wonderful world of React.
 
 Part 1 will be concerned with the "What" and "How" of these abstractions while Part 2 will be concerned with the "When" and "Why."
-
-<!-- more -->
 
 ## Background
 
