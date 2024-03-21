@@ -1,15 +1,16 @@
-{% extends "index.html" %}
+{% extends "base.html" %}
 
 {% block content %}
-  <div class="taxonomy">
-    <h2>{{ term.name }}</h2>
-    {% for page in term.pages %}
-      <div class="taxonomy__item">
-        <span class="taxonomy__item__time">{{ page.date | date(format="%F") }}</span>
-        <span class="taxonomy__item__title">
-          <a href="{{ page.permalink }}">{{ page.title }}</a>
-        </span>
-      </div>
-    {% endfor %}
-  </div>
+<section class="tags">
+  <section class="tags-header">
+    <h2 class="tags-header-title">#{{ term.name }}</h2>
+    <section class="tags-header-line"></section>
+  </section>
+</section>
+
+<section class="catalogue">
+  {% for page in term.pages -%}
+  {{ macros::page(page=page) }}
+  {%- endfor %}
+</section>
 {% endblock content %}

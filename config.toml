@@ -1,19 +1,20 @@
 base_url = "https://dannyandrews.net/"
-title = "Danny Andrews' Blog"
-description = "A collection of articles related to software development"
+title = "Fashionably Early"
+description = "Articles related to software development"
 default_language = "en"
-generate_rss = true
-theme = "even"
-highlight_code = true
+generate_feed = true
 build_search_index = true
-taxonomies = [
-  {name = "tags", rss = true}
-]
+taxonomies = [{ name = "tags", feed = true }]
 compile_sass = true
 
+[markdown]
+highlight_code = true
+highlight_theme = "base16-ocean-dark"
+
 [extra]
-even_menu = [
-  {url = "https://github.com/danny-andrews/", name = "GitHub"},
-  {url = "https://www.linkedin.com/in/danielandrews91/", name = "LinkedIn"}
+footer_links = [
+  { url = "https://github.com/danny-andrews/", name = "GitHub" },
+  { url = "https://www.linkedin.com/in/danielandrews91/", name = "LinkedIn" },
 ]
-even_title = "Danny Andrews' Blog"
+author = "Danny Andrews"
+footer = { info = "Built with Zola." }

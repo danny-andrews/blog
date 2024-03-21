@@ -7,6 +7,6 @@
     "build": "zola build",
     "serve": "zola serve",
     "deploy": "./deploy.sh",
-    "lint": "markdownlint --ignore node_modules content/*.md"
+    "lint": "zola check && markdownlint --ignore node_modules content/*.md"
   }
 }
