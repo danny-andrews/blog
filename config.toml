@@ -11,6 +11,12 @@ compile_sass = true
 highlight_code = true
 highlight_theme = "base16-ocean-dark"
 
+[link_checker]
+skip_anchor_prefixes = [
+  "https://github.com/gajus",
+  "https://github.com/webpack-contrib",
+]
+
 [extra]
 footer_links = [
   { url = "https://github.com/danny-andrews/", name = "GitHub" },
@@ -18,9 +24,3 @@ footer_links = [
 ]
 author = "Danny Andrews"
 footer = { info = "Built with Zola." }
-
-[link_checker]
-skip_anchor_prefixes = [
-  "https://github.com/gajus",
-  "https://github.com/webpack-contrib",
-]
