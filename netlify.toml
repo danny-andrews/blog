@@ -1,11 +1,11 @@
 [build]
-  publish = "public/"
-  command = "zola build"
+publish = "public"
+command = "zola build"
 
 [build.environment]
-    ZOLA_VERSION = "0.11.0"
+ZOLA_VERSION = "0.11.0"
 
 [[redirects]]
-  from = "/task-time/*"
-  to = "https://task-time.netlify.app/:splat"
-  status = 200
+from = "https://task-time.danny-andrews.net/*"
+to = "https://task-time.netlify.app/:splat"
+status = 200
