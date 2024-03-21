@@ -1084,4 +1084,3 @@ So, anytime you hear people saying functional programming eliminates the GoF des
 - <https://medium.com/javascript-scene/the-open-minded-explorer-s-guide-to-object-composition-88fe68961bed>
 - <http://blog.ezyang.com/2010/05/design-patterns-in-haskel>
 - <http://www.cs.ox.ac.uk/jeremy.gibbons/publications/hodgp.pdf>
-- <https://www.voxxed.com/2016/05/gang-four-patterns-functional-light-part-1>

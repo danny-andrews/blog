@@ -55,7 +55,7 @@ import classnames from "classnames";
 
 1. Don't have to use `camelCase` CSS class names.
 
-> Okay, sure, but the same is true for "css-loader." It has a [`camelCase`](https://github.com/webpack-contrib/css-loader#camelcase) option which converts kabab-case'ed class names to `camelCase`.
+> Okay, sure, but the same is true for "css-loader." It has a [`camelCase`](https://github.com/webpack-contrib/css-loader?tab=readme-ov-file#string-2) option which converts kabab-case'ed class names to `camelCase`.
 
 ## CONs
 

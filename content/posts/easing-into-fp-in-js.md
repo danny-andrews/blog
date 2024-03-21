@@ -32,7 +32,7 @@ The easiest way to get started with FP is by using functions the language _alrea
 
 You have two options here. If you are using TypeScript or a static type analyzer such as Flow, I recommend #1. If not, go with #2.
 
-1. Return `Error`s instead. The `function` in this case will have a [union](https://guide.elm-lang.org/types/union_types.html)/[variant](https://realworldocaml.org/v1/en/html/variants.html) return type e.g. `Int | Error`.
+1. Return `Error`s instead. The `function` in this case will have a [union](https://guide.elm-lang.org/types/union_types.html)/[variant](https://dev.realworldocaml.org/variants.html) return type e.g. `Int | Error`.
 1. Use the [`Either`](https://monet.github.io/monet.js/#either) monad.
 
 ## Level 5 — Eliminate Conditional Statements

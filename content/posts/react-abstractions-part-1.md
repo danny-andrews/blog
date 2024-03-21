@@ -21,13 +21,11 @@ If you're a part of the web-dev Twittersphere, then you've probably heard of the
 <blockquote class="twitter-tweet" data-conversation="none" data-lang="en"><p lang="en" dir="ltr">I can do anything you&#39;re doing with your HOC using a regular component with a render prop. Come fight me.</p>&mdash; MICHAEL JACKSON (@mjackson) <a href="https://twitter.com/mjackson/status/885910701520207872?ref_src=twsrc%5Etfw">July 14, 2017</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-> If you are unfamiliar with the concept of render props and/or haven't read Jackson's article on the subject, I would highly recommend doing so [here](https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce) before continuing this article.
-
 This tweet sparked a lot of productive debate, but it also added a lot of confusion, as there are a lot of variations of this pattern which are called different things. So, let's start with some terms.
 
 ## Definitions (a.k.a. "What")
 
-[Render (prop/callback)](https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce) - A function prop that a component uses to know what to render. Example:
+[Render (prop/callback)](https://www.patterns.dev/react/render-props-pattern/) - A function prop that a component uses to know what to render. Example:
 
 ```js
 const LuckyNumber = ({ render }) => render({ number: Math.random() });
