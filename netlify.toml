@@ -6,6 +6,6 @@ command = "zola build"
 ZOLA_VERSION = "0.18.0"
 
 [[redirects]]
-from = "https://task-time.danny-andrews.net/*"
+from = "https://task-time.dannyandrews.net/*"
 to = "https://task-time.netlify.app/:splat"
 status = 200
